@@ -1,0 +1,88 @@
+* {
+  /* font-family: 'Montserrat', sans-serif !important; */
+  font-family: 'Poppins', sans-serif !important;
+}
+html {
+  overflow-y: scroll;
+}
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset;
+  box-shadow: 0 0 0 30px white inset;
+}
+.v-select.dropdown .dropdown-toggle {
+  border: 1px solid #ced4da;
+  height: 38px;
+}
+.v-select.dropdown .dropdown-toggle::after {
+  content: normal;
+}
+/* .v-select.dropdown .form-control {
+  height: 27px;
+} */
+.b-limit-btn {
+  max-height: 38px;
+  align-self: center;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+.nav-tabs .nav-link {
+  border-color: #e9ecef #e9ecef #dee2e6;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.modal-open {
+  padding-right: 0 !important;
+}
+html {
+  overflow-y: scroll !important;
+}
+.v-select .open-indicator:before {  
+  border-width: 1px 1px 0 0;
+}  
+.v-select .dropdown-toggle .clear {
+  font-weight: 100;
+  margin-right: 16px;
+  margin-top: 8px;  
+}
+.vs__selected-options > input {
+  height: inherit;
+}
+
+.border-primary {
+  border-color: #3DC9AF !important;
+}
+.bg-primary {
+  background-color: #3DC9AF !important;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #3DC9AF !important;
+  border-color: #3DC9AF !important;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #2A9985 !important;
+  border-color: #2A9985 !important;
+}
+.btn-outline-primary {
+  color: #3DC9AF;
+  background-color: transparent;
+  background-image: none;
+  border-color: #3DC9AF;
+}
+.btn-outline-primary:hover {
+  color: #2A9985;
+  background-color: transparent;
+  background-image: none;
+  border-color: #2A9985;
+}
+.table .thead-light th {
+  background-color: #3DC9AF;
+  border-color: #3DC9AF;
+  color: white;
+  font-weight: normal;
+}
+.table td {
+  cursor: pointer;
+}

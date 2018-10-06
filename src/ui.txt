@@ -1,0 +1,162 @@
+ui: {
+    type: 'tabs',
+    screens: [
+      {
+        name: 'personalDetails',
+        label: 'Personal Details',
+        formData: {},
+        dataLocation: 'root.patientDetails',
+        schema: [
+          {
+            fieldType: 'ArrayInput',
+            name: 'testArray',
+            label: 'Array of Objects',
+            schema: [
+              {
+                fieldType: 'ObjectInput',
+                name: 'objectInArray',
+                label: 'Object in Array',
+                schema: [
+                  {
+                    fieldType: 'TextInput',
+                    placeholder: 'eg. John',
+                    label: 'First Name',
+                    name: 'firstName'
+                  },
+                  {
+                    fieldType: 'TextInput',
+                    placeholder: 'eg. Smith',
+                    label: 'Last Name',
+                    name: 'lastName'
+                  }
+                ]
+              }
+            ]
+          },              
+          {
+            fieldType: 'ObjectInput',
+            name: 'patientDetails',
+            label: 'Patient Details',
+            schema: [                  
+              {
+                fieldType: 'TextInput',
+                placeholder: 'eg. John',
+                label: 'First Name',
+                name: 'firstName'
+              },
+              {
+                fieldType: 'TextInput',
+                placeholder: 'eg. Smith',
+                label: 'Last Name',
+                name: 'lastName'
+              },
+              {
+                fieldType: 'DatePickerInput',
+                placeholder: 'eg. 01 Jan 1999',
+                label: 'Date of Birth',
+                name: 'dateOfBirth',
+              },
+              {
+                fieldType: 'NumberInput',
+                placeholder: 'eg. 32',
+                label: 'Age',
+                name: 'age'
+              }
+            ]
+          },
+          // Medical Aid Details
+          {
+            fieldType: 'ObjectInput',
+            name: 'medicalAid',
+            label: 'Medical Aid',
+            schema: [
+              {
+                fieldType: 'SelectList',
+                name: 'schemeName',
+                multi: false,
+                label: 'Medical Aid',
+                options: ['', 'Discovery', 'Bonitas', 'MediBank']
+              },
+              {
+                fieldType: 'TextInput',
+                placeholder: 'eg. KeyCare Plus',
+                label: 'Plan',
+                name: 'plan',
+                enabledWhen: 'schemeName',
+                clearWhen: 'schemeName'
+              },
+              {
+                fieldType: 'TextInput',
+                placeholder: '',
+                label: 'Membership #',
+                name: 'membershipNumber'
+              }
+            ]
+          },
+          {
+            fieldType: 'TextAreaInput',
+            name: 'notes',
+            label: 'Notes',
+            fullWidth: true,                
+          }
+        ]
+      },
+      {
+        name: 'history',
+        label: 'History',
+        formData: {},
+        dataLocation: 'root.visits.history',
+        schema: [
+          {
+            fieldType: 'ObjectInput',
+            name: 'reasonForVisit',
+            label: 'Reason for Visit',
+            schema: [
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'visionComplaints',
+                label: 'Vision Complaints',
+                defaultValue: false,
+                fullWidth: true                    
+              },
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'blur',
+                label: 'Blur',
+                defaultValue: false,
+                fullWidth: true
+              },
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'headaches',
+                label: 'Headaches',                    
+                defaultValue: false,
+                fullWidth: true
+              },
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'ocularPain',
+                label: 'Ocular Pain',
+                defaultValue: false,
+                fullWidth: true
+              },
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'redOrIrratated',
+                label: 'Red or Irratated',
+                defaultValue: false,
+                fullWidth: true
+              },
+              {
+                fieldType: 'BooleanYesNoInput',
+                name: 'contactLens',
+                label: 'Contact Lens',
+                defaultValue: false,
+                fullWidth: true
+              }                 
+            ]
+          }
+        ]
+      }
+    ]
+  }

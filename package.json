@@ -1,0 +1,54 @@
+{
+  "name": "vue-dynamic-components",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "await-to-js": "^2.0.1",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "firebase": "^5.5.2",
+    "string-template": "^1.0.0",
+    "v-mask": "^1.3.2",
+    "vee-validate": "^2.1.0-beta.9",
+    "vue": "^2.5.13",
+    "vue-full-loading": "^1.2.1",
+    "vue-js-modal": "^1.3.26",
+    "vue-router": "^3.0.1",
+    "vue-select": "^2.5.1",
+    "vue-tabs-component": "^1.5.0",
+    "vuejs-datepicker": "^1.5.3",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-alpha.11",
+    "@vue/cli-plugin-eslint": "^3.0.0-alpha.11",
+    "@vue/cli-service": "^3.0.0-alpha.11",
+    "vue-template-compiler": "^2.5.13"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
