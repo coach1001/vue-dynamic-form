@@ -37,7 +37,11 @@ const router = new Router ({
       meta: {
         requiresAuth: true
       }      
-    }
+    },
+    {
+      path: '/visits',
+      redirect: '/search'
+    },
   ]
 })
 

@@ -38,9 +38,9 @@
       <b-card border-variant="primary" header="Login" header-bg-variant="primary" header-text-variant="white">
         <b-form @submit.prevent="onSubmit">
           <b-form-group :invalid-feedback="errors.first('email')"
-                        :state="$fieldUtils.checkErrors('email', errors, veeFields)"
+                        :state="$fieldUtils.checkErrors('email', errors, $veeFields)"
                         label="Email address:">
-            <b-form-input :state="$fieldUtils.checkErrors('email', errors, veeFields)"
+            <b-form-input :state="$fieldUtils.checkErrors('email', errors, $veeFields)"
                           v-model="loginForm.userEmaiAddress"
                           placeholder="Enter email"
                           v-validate="'required|email'"
@@ -49,9 +49,9 @@
             </b-form-input>
           </b-form-group>
           <b-form-group :invalid-feedback="errors.first('password')"
-                        :state="$fieldUtils.checkErrors('password', errors, veeFields)"
+                        :state="$fieldUtils.checkErrors('password', errors, $veeFields)"
                         label="Email address:">
-            <b-form-input :state="$fieldUtils.checkErrors('password', errors, veeFields)"
+            <b-form-input :state="$fieldUtils.checkErrors('password', errors, $veeFields)"
                           v-model="loginForm.userPassword"
                           placeholder="Enter password"
                           v-validate="'required|min:6'"
@@ -90,7 +90,7 @@ export default {
       ) {
         this.login();
       } else {
-        this.$fieldUtils.markAllFiedsAsDirty(this.veeFields)
+        this.$fieldUtils.markAllFiedsAsDirty(this.$veeFields)
         this.$validator.validateAll();
       }
     },
@@ -109,7 +109,7 @@ export default {
         this.loginError = 'Invalid Username or Password';
       } else {
         this.$store.commit('setCurrentUser', response.user);
-        this.$store.dispatch('fetchUserProfile');
+        await this.$store.dispatch('fetchUserProfile');
         this.$router.push('/search');
       }
     }

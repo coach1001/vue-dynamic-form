@@ -4,6 +4,7 @@
       <b-tabs card @input="tabShown">
         <b-tab v-for="(screen, sIndex) in mainUiLayout.screens" :key="sIndex" :title="screen.label" class="p-4">        
           <form-generator 
+                          :dataLocation="screen.dataLocation"
                           :schema="screen.schema" 
                           v-model="screenData[screen.name]" 
                           :name="screen.name">
@@ -24,13 +25,14 @@ export default {
   components: { FormGenerator, UserAccessPage },
   computed: {
     ...mapState(['mainUiLayout', 'setReferenceId', 'screenData'])
-  },
+  },  
   methods: {
-    tabShown(tIndex) {           
-      this.$store.dispatch('fetchDataFromLocation', { 
+    async tabShown(tIndex) {           
+      await this.$store.dispatch('fetchDataFromLocation', { 
         location: this.mainUiLayout.screens[tIndex].dataLocation,
         screenName: this.mainUiLayout.screens[tIndex].name
-      })
+      })      
+      this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[tIndex].name)       
     }
   },
   created() {

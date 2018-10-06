@@ -1,8 +1,9 @@
 <template>
   <div>        
-    <!-- <b-row class="ml-3">
-      <b-button variant="outline-primary" @click="clearData()">Clear Data</b-button><br><br>
-    </b-row>         -->
+    <b-row class="ml-01">
+      <b-button variant="outline-primary" @click="reset">Reset</b-button><br><br>
+      <b-button variant="outline-primary ml-2" @click="save">Save</b-button><br><br>
+    </b-row>        
     <b-row align-h="center">  
       <b-col>                          
         <b-form @submit.prevent="onSubmit"> 
@@ -39,10 +40,10 @@ import ModalInput from './ModalInput'
 export default {
   name: 'FormGenerator',
   components: { NumberInput, SelectList, TextInput, ArrayInput, ObjectInput, DatePickerInput, BooleanYesNoInput, ModalInput, TextAreaInput },
-  props: ['schema', 'value', 'name'],  
+  props: ['schema', 'value', 'name', 'dataLocation'],  
   data() {
     return {
-      formData: this.value || {}      
+      formData: this.value || {}
     }
   },
   watch: {
@@ -60,9 +61,18 @@ export default {
     }    
   },
   methods: {
-    updateForm(fieldName, value) {
+    updateForm(fieldName, value) {      
       this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)      
+    },
+    reset() {
+      this.$store.commit('resetCurrentScreenData', this.name)                         
+    },
+    async save() {
+      await this.$store.dispatch('updateDataInLocation', {
+        location: this.dataLocation,
+        screenName: this.name
+      })
     }
   }
 }

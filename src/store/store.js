@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import to from 'await-to-js'
+import cloneDeep from 'lodash-es/cloneDeep';
 const firebase = require('../firebase/firebaseConfig.js')
 const format = require("string-template")
 Vue.use(Vuex)
@@ -15,14 +16,16 @@ export const store = new Vuex.Store({
     practice: {},
     referencesIds: {},
     patientSearchResults: [],
-    screenData: {}
+    screenData: {},
+    currentScreenDataCopy: {}
   },
   getters: {
     getShowLoader: state => state.showLoader,
     getBackendError: state => state.backendError
   },
   actions: {    
-    clearUserData({commit}) {
+    clearData({commit}) {
+      commit('clearPracticeData')
       commit('setCurrentUser', null)
       commit('setUserProfile', {})
     },
@@ -64,7 +67,7 @@ export const store = new Vuex.Store({
         commit('setShowLoader', false)        
       }  
     },
-    async fetchLastTenPatients({ commit, state }) {
+    async fetchPracticePatients({ commit, state }) {
       if(state.referencesIds.practiceId) {
         commit('setShowLoader', true)
         let patientSearchResults = []
@@ -87,14 +90,13 @@ export const store = new Vuex.Store({
       commit('setShowLoader', true)
       let tokens = [];
       let replaceTokenObject = {};
-      info.location.replace(/\{(.*?)}/g, function(a, b) { tokens.push(b); })
+      info.location.replace(/\{(.*?)}/g, function(a, b) { tokens.push(b) })
       tokens.forEach((token) => {        
         replaceTokenObject[token] = state.referencesIds[token]          
       })            
-      const refPath = format(info.location, replaceTokenObject)                        
+      const docPath = format(info.location, replaceTokenObject)                        
       let err, qResult
-      [err, qResult] = await to(firebase.db.doc(refPath).get())      
-
+      [err, qResult] = await to(firebase.db.doc(docPath).get())            
       if(err) {
         commit('setBackendError', err)        
         commit('setShowLoader', false)
@@ -103,11 +105,52 @@ export const store = new Vuex.Store({
         commit('setScreenData', {ref: info.screenName, val: data[info.screenName]})
         commit('setShowLoader', false)
       }            
-    }    
+    },
+    async updateDataInLocation({ commit, state }, info) {
+      commit('setShowLoader', true)      
+      let updateObj = {}
+      let tokens = [];
+      let replaceTokenObject = {};
+      info.location.replace(/\{(.*?)}/g, function(a, b) { tokens.push(b) })
+      tokens.forEach((token) => {        
+        replaceTokenObject[token] = state.referencesIds[token]          
+      })            
+      const docPath = format(info.location, replaceTokenObject)                        
+      updateObj[info.screenName] = state.screenData[info.screenName]
+      let err
+      [err] = await to(firebase.db.doc(docPath).update(updateObj))      
+      
+      if(err) {
+        commit('setBackendError', err)        
+        commit('setShowLoader', false)
+      } else {           
+        commit('copyCurrentScreenData', info.screenName)
+        commit('setShowLoader', false)        
+      }            
+    },
+    async searchForPatienceInPractice({ state }, searchTerm) {
+      console.log('referenceIds', state.referencesIds)
+      console.log('search term', searchTerm)
+    }     
   },
   mutations: {
+    clearPracticeData(state) {
+      state.backendError = {},
+      state.mainUiLayout = {},
+      state.practice = {},
+      state.referencesIds = {},
+      state.patientSearchResults = [],
+      state.screenData = {},
+      state.currentScreenDataCopy = {}
+    },
+    resetCurrentScreenData(state, val) {
+      Vue.set(state.screenData, val, cloneDeep(state.currentScreenDataCopy))
+    },
+    copyCurrentScreenData(state, val) {
+      state.currentScreenDataCopy = cloneDeep(state.screenData[val])      
+    },
     setScreenData(state, val) {
-      Vue.set(state.screenData, val.ref, val.val)      
+      Vue.set(state.screenData, val.ref, val.val)         
     },
     setPatientSearchResults(state, val) {
       state.patientSearchResults = val

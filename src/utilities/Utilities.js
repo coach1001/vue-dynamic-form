@@ -8,9 +8,9 @@ const fieldUtils = {
       return 'col-12 col-sm-12	col-md-6 col-lg-6 col-xl-6'
     }
   },
-  checkErrors(field, errors, veeFields) { 
-    if(veeFields[field] !== undefined) {
-      if(veeFields[field].dirty) {
+  checkErrors(field, errors, $veeFields) { 
+    if($veeFields[field] !== undefined) {
+      if($veeFields[field].dirty) {
         return !errors.has(field)
       } else {
         return null
@@ -18,10 +18,10 @@ const fieldUtils = {
     }
     return null
   },
-  markAllFiedsAsDirty(veeFields) {
-    if(!objectUtils.isEmpty(veeFields)) {
-      for(var key in veeFields) {
-        veeFields[key].dirty = true
+  markAllFiedsAsDirty($veeFields) {
+    if(!objectUtils.isEmpty($veeFields)) {
+      for(var key in $veeFields) {
+        $veeFields[key].dirty = true
       }  
     }
   },

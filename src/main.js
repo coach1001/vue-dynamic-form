@@ -17,7 +17,7 @@ import './styles.css'
 
 Vue.use(VeeValidate, {
   inject: true, 
-  fieldsBagName: 'veeFields'
+  fieldsBagName: '$veeFields'
 })
 Vue.use(BootstrapVue);
 

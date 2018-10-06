@@ -1,12 +1,14 @@
 <template>
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">  
     <b-form-group :label="label">
-      <datepicker :bootstrap-styling="true" :typeable="true"
-            :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
-            :name="name"
-            v-model="dataValue"
-            @input="updateOnInput(dataValue)"
-            :placeholder="placeholder">
+      <datepicker 
+                  :bootstrap-styling="true" 
+                  :typeable="true"
+                  :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
+                  :name="name"
+                  v-model="dataValue"
+                  @input="updateOnInput(dataValue)"
+                  :placeholder="placeholder">
       </datepicker>
     </b-form-group>
   </div>
@@ -31,7 +33,7 @@ export default {
   },
   methods: {
     updateOnInput(changeValue) {
-      this.dataValue = changeValue;
+      this.dataValue = changeValue.toISOString();
       this.$emit('input', this.dataValue);
     }
   },
