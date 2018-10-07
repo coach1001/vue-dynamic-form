@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import firebase from 'firebase'
-import VisitsPage from '../components/VisitsPage'
+import TestsPage from '../components/TestsPage'
 import UserAccessPage from '../components/UserAccessPage'
 import SearchPage from '../components/SearchPage'
 
@@ -31,15 +31,15 @@ const router = new Router ({
       }
     },
     {
-      path: '/visits/:patientId',
-      name: 'VisitsPage',
-      component: VisitsPage,
+      path: '/tests/:patientId',
+      name: 'TestsPage',
+      component: TestsPage,
       meta: {
         requiresAuth: true
       }      
     },
     {
-      path: '/visits',
+      path: '/tests',
       redirect: '/search'
     },
   ]

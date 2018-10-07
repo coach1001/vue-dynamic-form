@@ -72,10 +72,9 @@ html {
   border-color: #3DC9AF;
 }
 .btn-outline-primary:hover {
-  color: #2A9985;
-  background-color: transparent;
-  background-image: none;
+  color: white;    
   border-color: #2A9985;
+  background-color: #2A9985;
 }
 .table .thead-light th {
   background-color: #3DC9AF;
@@ -95,4 +94,10 @@ html {
 }
 .nav-tabs .nav-link {
   color: #a4b1bd;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active, .show > .btn-outline-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #2A9985;
+  border-color: #2A9985;
 }

@@ -1,7 +1,9 @@
 <template>
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">  
     <b-form-group :label="label">
-      <datepicker 
+      <datepicker
+                  format="yyyy-MM-dd"
+                  v-mask="'####-##-##'" 
                   :bootstrap-styling="true" 
                   :typeable="true"
                   :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
@@ -33,7 +35,9 @@ export default {
   },
   methods: {
     updateOnInput(changeValue) {
-      this.dataValue = changeValue.toISOString();
+      if(changeValue) {
+        this.dataValue = changeValue.toISOString()
+      }      
       this.$emit('input', this.dataValue);
     }
   },

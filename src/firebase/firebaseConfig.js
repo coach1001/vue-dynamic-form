@@ -28,7 +28,7 @@ const optometristsCollection = db.collection('optometrists')
 const patientsCollection = db.collection('patients')
 const practicesCollection = db.collection('practices')
 const uiLayoutCollection = db.collection('uiLayout')
-const visitsCollection = db.collection('visits')
+const testsCollection = db.collection('tests')
 
 export {
   db,
@@ -38,5 +38,5 @@ export {
   patientsCollection,
   practicesCollection,
   uiLayoutCollection,
-  visitsCollection
+  testsCollection
 }

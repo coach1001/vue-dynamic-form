@@ -1,8 +1,10 @@
 <template>
   <div>        
     <b-row class="ml-01">
-      <b-button variant="outline-primary" @click="reset">Reset</b-button><br><br>
-      <b-button variant="outline-primary ml-2" @click="save">Save</b-button><br><br>
+      
+      <b-button variant="outline-primary" @click="save">Save</b-button>
+      <b-button variant="outline-info ml-2" @click="reset">Reset</b-button>
+      <b-button variant="outline-danger ml-2">Delete</b-button>
     </b-row>        
     <b-row align-h="center">  
       <b-col>                          
@@ -68,10 +70,12 @@ export default {
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
-    async save() {
-      await this.$store.dispatch('updateDataInLocation', {
+    async save() {      
+      this.formData = this.$fieldUtils.removeEmpty(this.formData)
+      this.$emit('input', this.formData)      
+      await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
-        screenName: this.name
+        screenName: this.name        
       })
     }
   }

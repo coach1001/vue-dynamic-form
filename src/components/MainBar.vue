@@ -10,7 +10,7 @@
         <b-nav-item v-if="currentUser" @click="pushRoute('/search')">Search</b-nav-item>        
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item class="d-none d-md-block">
+        <b-nav-item class="d-none d-md-block" v-if="currentUser">
           <b-col class="mr-1 nav-info-text">          
             <b-col class="text-right">{{currentUser.email || ''}}</b-col>
             <b-col class="text-right">{{`${userProfile.firstName || ''} ${userProfile.lastName || ''}`}}</b-col>
