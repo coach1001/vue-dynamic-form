@@ -10,6 +10,13 @@
         <b-nav-item v-if="currentUser" @click="pushRoute('/search')">Search</b-nav-item>        
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
+        <b-nav-item class="d-none d-md-block">
+          <b-col class="mr-1 nav-info-text">          
+            <b-col class="text-right">{{currentUser.email || ''}}</b-col>
+            <b-col class="text-right">{{`${userProfile.firstName || ''} ${userProfile.lastName || ''}`}}</b-col>
+            <b-col class="text-right">{{practice.name || ''}}</b-col>
+          </b-col>
+        </b-nav-item>          
         <b-nav-item v-if="currentUser" @click="logout">Logout</b-nav-item>
         <b-nav-item v-if="!currentUser" @click="pushRoute('/login')">Login</b-nav-item>
       </b-navbar-nav>
@@ -25,7 +32,7 @@ import { mapState } from 'vuex'
 export default {
   name: "MainBar",
   computed: {
-    ...mapState(['currentUser', 'userProfile'])
+    ...mapState(['currentUser', 'userProfile', 'practice'])
   },
   methods: {
     async logout() {
@@ -46,4 +53,8 @@ export default {
 </script>
 
 <style scoped>
+.nav-info-text{
+  font-size: .7rem;
+  color: rgba(255, 255, 255, 0.75);    
+}
 </style>
