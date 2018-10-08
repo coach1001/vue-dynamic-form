@@ -59,6 +59,7 @@
                           type="password">
             </b-form-input>
           </b-form-group>
+          <span class="warning">{{ loginError }}</span>
           <b-button class="btn-block" type="submit" variant="primary">Sign in</b-button>
         </b-form>
       </b-card>

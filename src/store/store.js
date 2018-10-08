@@ -180,7 +180,10 @@ export const store = new Vuex.Store({
     async searchForPatienceInPractice({ state }, searchTerm) {
       console.log('referenceIds', state.referenceIds)
       console.log('search term', searchTerm)
-    }     
+    },
+    async fetchPatientTests({ commit }) {
+      console.log('fetchTest', commit)
+    }
   },
   mutations: {
     clearPracticeData(state) {

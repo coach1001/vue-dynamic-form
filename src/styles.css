@@ -101,3 +101,16 @@ html {
   background-color: #2A9985;
   border-color: #2A9985;
 }
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #ced4da !important;
+  opacity: 1 !important;; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ced4da !important;;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #ced4da !important;;
+}

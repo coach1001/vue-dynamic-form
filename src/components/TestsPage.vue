@@ -1,6 +1,6 @@
 <template>
   <div v-if="!$objectUtils.isEmpty(mainUiLayout)">
-    <b-row>         
+    <b-row v-if="referenceIds.patientId">         
       <b-col class="col-md-4">
         <b-form-group label="Select Previous Test">     
           <!-- <v-select :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
@@ -12,7 +12,7 @@
         </b-form-group>        
       </b-col>         
       <b-col class="new-test-button mb-3">
-        <b-button variant="primary" v-b-modal="'newTestDateModal'">New Test</b-button>              
+        <b-button variant="primary" @click.prevent="openNewTestDateModal">New Test</b-button>              
       </b-col>
     </b-row>
     <div class="mb-3">
@@ -34,7 +34,7 @@
       </b-card>
     </div>  
   <b-modal 
-          id="newTestDateModal" 
+          ref="newTestDateModal" 
           :centered="true" 
           title="New Test" 
           @ok="createTest"
@@ -93,14 +93,25 @@ export default {
         return false
       }      
     },
-    createTest() {
-      console.log(this.newTestDate)
-    }
+    createTest() {  
+          
+    },
+    openNewTestDateModal() {
+      this.newTestDate = null      
+      this.$refs.newTestDateModal.show()
+    }    
   },  
-  created() {
-    Object.keys(this.$route.params).map((key) => {        
-      this.$store.commit('setReferenceId', {ref: key, val: this.$route.params[key]})      
-    });    
+  async created() {
+    let keyVal = null
+    Object.keys(this.$route.params).map((key) => {           
+      keyVal = this.$route.params[key]
+      this.$store.commit('setReferenceId', {ref: key, val: keyVal})
+    });
+    if(keyVal !== 'new') {
+      await this.$store.dispatch('fetchPatientTests')            
+    } else {
+      console.log('Get latest document')
+    } 
   }
 }
 </script>

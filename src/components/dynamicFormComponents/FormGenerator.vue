@@ -1,10 +1,8 @@
 <template>
   <div>        
-    <b-row class="ml-01">
-      
+    <b-row class="ml-01">      
       <b-button variant="outline-primary" @click="save">Save</b-button>
-      <b-button variant="outline-info ml-2" @click="reset">Reset</b-button>
-      <b-button variant="outline-danger ml-2">Delete</b-button>
+      <b-button variant="outline-info ml-2" @click="reset">Reset</b-button>      
     </b-row>        
     <b-row align-h="center">  
       <b-col>                          

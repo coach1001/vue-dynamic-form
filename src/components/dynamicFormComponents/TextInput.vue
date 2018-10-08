@@ -37,8 +37,8 @@ export default {
     refData:{ 
       handler() {        
         if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue)) {          
-          this.dataValue = null
-          this.$emit('input', null)
+          this.dataValue = undefined
+          this.$emit('input', undefined)
         }
       },
       deep: true
