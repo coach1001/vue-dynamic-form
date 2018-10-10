@@ -36,7 +36,7 @@ export default {
   methods: {
     updateOnInput(changeValue) {
       if(changeValue) {
-        this.dataValue = changeValue.toISOString()
+        this.dataValue = changeValue.toISOString().substr(0,10);
       }      
       this.$emit('input', this.dataValue);
     }

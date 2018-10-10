@@ -1,14 +1,14 @@
 <template>
   <div v-if="!$objectUtils.isEmpty(mainUiLayout)">
-    <b-row v-if="referenceIds.patientId">         
+    <b-row v-if="referenceIds.patientId !== 'new'">         
       <b-col class="col-md-4">
         <b-form-group label="Select Previous Test">     
-          <!-- <v-select :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
-                  :value="value"
-                  :options="options"              
-                  :on-change="(selected) => updateOnInput(selected)">
-          </v-select>          -->
-          <v-select></v-select>
+          <v-select 
+                    label="dateOfTest" 
+                    v-model="selectedTest"                   
+                    :options="patientTestsResults"
+                    :on-change="(selected) => testSelected(selected)">
+          </v-select>
         </b-form-group>        
       </b-col>         
       <b-col class="new-test-button mb-3">
@@ -46,7 +46,7 @@
                   :bootstrap-styling="true" 
                   :typeable="true"                                    
                   v-model="newTestDate"                  
-                  placeholder="eg. 2018-12-12">      
+                  placeholder="eg. 1999-01-01">      
       </datepicker>
     </b-form-group>
   </b-modal>
@@ -63,20 +63,31 @@ export default {
   name: 'TestsPage',
   components: { FormGenerator, UserAccessPage, Datepicker },
   computed: {
-    ...mapState(['mainUiLayout', 'setReferenceId', 'screenData', 'referenceIds'])
+    ...mapState(['mainUiLayout', 'setReferenceId', 'screenData', 'referenceIds', 'patientTestsResults'])
   },  
   data() {
     return {
       showNewTestModal: false,
-      newTestDate: null
+      newTestDate: null,
+      firstLoad: true,
+      selectedTest: null
     }
   },
   methods: {
-    async tabShown(tIndex) {           
-      await this.$store.dispatch('fetchDataFromLocation', { 
-        location: this.mainUiLayout.screens[tIndex].dataLocation,
-        screenName: this.mainUiLayout.screens[tIndex].name
-      })      
+    testSelected(selected) {
+      console.log(selected)
+    },
+    async tabShown(tIndex) {          
+      if(tIndex === 0 && this.firstLoad) {                    
+        await this.$store.dispatch('fetchDataFromLocation', { 
+          location: this.mainUiLayout.screens[tIndex].dataLocation,
+          screenName: this.mainUiLayout.screens[tIndex].name
+        })              
+        this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[0].name)
+        await this.$store.dispatch('fetchPatientTests')
+        this.selectedTest = this.patientTestsResults[0]
+        this.firstLoad = false
+      } 
       this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[tIndex].name)       
     },
     checkForIds(requiredIds) {
@@ -94,7 +105,7 @@ export default {
       }      
     },
     createTest() {  
-          
+      this.$store.dispatch('createPatientTest', this.newTestDate)          
     },
     openNewTestDateModal() {
       this.newTestDate = null      
@@ -103,15 +114,10 @@ export default {
   },  
   async created() {
     let keyVal = null
-    Object.keys(this.$route.params).map((key) => {           
+      Object.keys(this.$route.params).map((key) => {           
       keyVal = this.$route.params[key]
       this.$store.commit('setReferenceId', {ref: key, val: keyVal})
     });
-    if(keyVal !== 'new') {
-      await this.$store.dispatch('fetchPatientTests')            
-    } else {
-      console.log('Get latest document')
-    } 
   }
 }
 </script>

@@ -34,7 +34,9 @@ export default {
     ...mapState(['patientSearchResults', 'practice'])
   },
   methods: {
-    rowClick(item) {                  
+    rowClick(item) {     
+      this.$store.commit('setPatientTests', [])
+      this.$store.commit('setScreenData', { ref: 'personalDetails', val: {} })                 
       this.$router.push(`/tests/${item.patientId}`)
     },
     async search() {
@@ -60,7 +62,9 @@ export default {
     }
   },
   created() {    
-    this.$store.dispatch('fetchPracticePatients');    
+    if(this.patientSearchResults.length === 0) {
+      this.$store.dispatch('fetchPracticePatients');   
+    }    
   }
 }
 </script>

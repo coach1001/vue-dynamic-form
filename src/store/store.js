@@ -18,6 +18,7 @@ export const store = new Vuex.Store({
     practice: {},
     referenceIds: {},
     patientSearchResults: [],
+    patientTestsResults: [],
     screenData: {},
     currentScreenDataCopy: {}
   },
@@ -103,8 +104,7 @@ export const store = new Vuex.Store({
           isNew.new = true
           isNew.token = token
         }
-      })          
-      
+      })                
       const docPath = format(info.location, replaceTokenObject)          
       let err, qResult, data            
       if(!isNew.new) {        
@@ -181,11 +181,53 @@ export const store = new Vuex.Store({
       console.log('referenceIds', state.referenceIds)
       console.log('search term', searchTerm)
     },
-    async fetchPatientTests({ commit }) {
-      console.log('fetchTest', commit)
+    async fetchPatientTests({ commit, state }) {
+      if(state.referenceIds.practiceId) {
+        commit('setShowLoader', true)
+        let patientTestsResults = []
+        let err, qResults              
+        [err, qResults] = await to(
+          firebase.testsCollection.where('patientId', '==', state.referenceIds.patientId || '').get())      
+        if(err) {
+          commit('setBackendError', err)        
+          commit('setShowLoader', false)
+        } else {        
+          qResults.forEach((doc) => {           
+            patientTestsResults.push({testId: doc.id, ...doc.data()})
+          })    
+          commit('setPatientTests', patientTestsResults)          
+          commit('setShowLoader', false)      
+        }
+      }      
+    },
+    async createPatientTest({commit, state}, info) {      
+      let updateObj = {}
+      let err, result
+      commit('setShowLoader', true)
+      updateObj.createdAt = new Date().toISOString()
+      updateObj.createdBy = state.currentUser.email        
+      updateObj.patientId = state.referenceIds.patientId
+      updateObj.dateOfTest = info.toISOString().substr(0,10);
+      [err, result] = await to(firebase.db.collection('tests').add(updateObj))            
+      if(err) {
+        commit('setBackendError', err)        
+        commit('setShowLoader', false)
+      } else { 
+        updateObj['testId'] = result.id
+        commit('addPatientTest', updateObj)
+        commit('setShowLoader', false)
+      }
     }
   },
   mutations: {
+    addPatientTest(state, val) {
+      let currentTests = cloneDeep(state.patientTestsResults)
+      currentTests.push(val)
+      Vue.set(state, 'patientTestsResults', currentTests)
+    },
+    setPatientTests(state, val) {
+      state.patientTestsResults = val
+    },
     clearPracticeData(state) {
       state.backendError = {},
       state.mainUiLayout = {},
