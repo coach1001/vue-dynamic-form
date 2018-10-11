@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
     userProfile: {},
     showLoader: false,
     backendError: {},
-    mainUiLayout: {},    
+    mainUiLayout: {},
     practice: {},
     referenceIds: {},
     patientSearchResults: [],
@@ -26,193 +26,221 @@ export const store = new Vuex.Store({
     getShowLoader: state => state.showLoader,
     getBackendError: state => state.backendError
   },
-  actions: {    
-    clearData({commit}) {
+  actions: {
+    clearData({ commit }) {
       commit('clearPracticeData')
       commit('setCurrentUser', null)
       commit('setUserProfile', {})
     },
     async fetchUserProfile({ commit, state, dispatch }) {
-      let err, qResults           
-      [err, qResults] = await to(firebase.optometristsCollection.where('emailAddress', '==', state.currentUser.email).get())            
-      if(err) {        
+      let err, qResults
+      [err, qResults] = await to(firebase.optometristsCollection.where('emailAddress', '==', state.currentUser.email).get())
+      if (err) {
         commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else {                  
-        qResults.forEach((doc) => {                                            
-          commit('setReferenceId', {ref: 'practiceId', val: doc.data().practiceId })
+      } else {
+        qResults.forEach((doc) => {
+          commit('setReferenceId', { ref: 'practiceId', val: doc.data().practiceId })
           commit('setUserProfile', doc.data())
           dispatch('fetchPractice')
-          commit('setShowLoader', false)          
-        })        
+          commit('setShowLoader', false)
+        })
       }
     },
     async fetchPractice({ commit, state, dispatch }) {
       let err, qResult
-      [err, qResult] = await to(firebase.practicesCollection.doc(state.referenceIds.practiceId).get())      
-      if(err) {        
+      [err, qResult] = await to(firebase.practicesCollection.doc(state.referenceIds.practiceId).get())
+      if (err) {
         commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else {                                  
-        commit('setReferenceId', {ref: 'uiMainLayoutId', val: qResult.data().mainUiLayoutId})        
-        commit('setPractice', qResult.data())        
-        await dispatch('fetchMainUiLayout')   
-      }    
+      } else {
+        commit('setReferenceId', { ref: 'uiMainLayoutId', val: qResult.data().mainUiLayoutId })
+        commit('setPractice', qResult.data())
+        await dispatch('fetchMainUiLayout')
+      }
     },
     async fetchMainUiLayout({ commit, state }) {
       let err, qResult
-      [err, qResult] = await to(firebase.uiLayoutCollection.doc(state.referenceIds.uiMainLayoutId).get())      
-      if(err) {        
+      [err, qResult] = await to(firebase.uiLayoutCollection.doc(state.referenceIds.uiMainLayoutId).get())
+      if (err) {
         commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else {           
+      } else {
         commit('setMainUiLayout', qResult.data())
-        commit('setShowLoader', false)        
-      }  
+        commit('setShowLoader', false)
+      }
     },
     async fetchPracticePatients({ commit, state }) {
-      if(state.referenceIds.practiceId) {
+      if (state.referenceIds.practiceId) {
         commit('setShowLoader', true)
         let patientSearchResults = []
-        let err, qResults      
+        let err, qResults
         [err, qResults] = await to(
-          firebase.patientsCollection.where('practiceId', '==', state.referenceIds.practiceId || '').limit(100).get())      
-        if(err) {
-          commit('setBackendError', err)        
+          firebase.patientsCollection.where('practiceId', '==', state.referenceIds.practiceId || '').limit(100).get())
+        if (err) {
+          commit('setBackendError', err)
           commit('setShowLoader', false)
-        } else {        
-          qResults.forEach((doc) => {           
-            patientSearchResults.push({patientId: doc.id, ...doc.data()})
-          })    
+        } else {
+          qResults.forEach((doc) => {
+            patientSearchResults.push({ patientId: doc.id, ...doc.data() })
+          })
           commit('setPatientSearchResults', patientSearchResults)
-          commit('setShowLoader', false)      
+          commit('setShowLoader', false)
         }
       }
     },
-    async fetchDataFromLocation({ commit, state }, info) {                        
-      let isNew  = {
+    async fetchDataFromLocation({ commit, state }, info) {
+      let isNew = {
         new: false,
         token: null
       }
-      commit('setShowLoader', true)      
+      commit('setShowLoader', true)
       let tokens = [];
       let replaceTokenObject = {};
-      info.location.replace(/\{(.*?)}/g, function(a, b) { tokens.push(b) })
-      tokens.forEach((token) => {        
-        replaceTokenObject[token] = state.referenceIds[token]          
-        if(replaceTokenObject[token] === 'new') {
+      info.location.replace(/\{(.*?)}/g, function (a, b) { tokens.push(b) })
+      tokens.forEach((token) => {
+        replaceTokenObject[token] = state.referenceIds[token]
+        if (replaceTokenObject[token] === 'new') {
           isNew.new = true
           isNew.token = token
         }
-      })                
-      const docPath = format(info.location, replaceTokenObject)          
-      let err, qResult, data            
-      if(!isNew.new) {        
-        [err, qResult] = await to(firebase.db.doc(docPath).get())                    
+      })
+      const docPath = format(info.location, replaceTokenObject)
+      let err, qResult, data;
+      if (!isNew.new) {
+        [err, qResult] = await to(firebase.db.doc(docPath).get())
         data = qResult.data() || {}
-      }  else {
+      } else {
         data = {}
-      } 
-      if(err) {
-        commit('setBackendError', err)        
+      }
+      if (err) {
+        commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else {                    
-        commit('setScreenData', {ref: info.screenName, val: data[info.screenName]})
+      } else {
+        commit('setScreenData', { ref: info.screenName, val: data[info.screenName] })
         commit('setShowLoader', false)
-      }            
+      }
+    },
+    async fetchTestData({ commit, state }) {
+      if (state.referenceIds.testId) {
+        commit('setShowLoader', true)
+        let testDataResult = {}
+        let data = {}
+        let err, qResults
+        [err, qResults] = await to(
+          firebase.testDataCollection.where('testId', '==', state.referenceIds.testId || '').limit(1).get())
+        if (err) {
+          commit('setBackendError', err)
+          commit('setShowLoader', false)
+        } else {
+          qResults.forEach((doc) => {
+            testDataResult = doc
+            data = testDataResult.data()
+          })          
+          state.mainUiLayout.screens.forEach((screen) => {
+            if (data[screen.name]) {
+              commit('setScreenData', { ref: screen.name, val: data[screen.name] })              
+            } else if (screen.name !== 'personalDetails') {
+              commit('setScreenData', { ref: screen.name, val: {} })
+            }
+          })
+          commit('setReferenceId', { ref: 'testDataId', val: testDataResult.id || 'new' })
+          commit('setShowLoader', false)
+        }
+      }
     },
     async updateCreateDataInLocation({ commit, state }, info) {
-      let isNew  = {
+      let isNew = {
         new: false,
         token: null
       }
-      commit('setShowLoader', true)      
+      commit('setShowLoader', true)
       let updateObj = {}
       let tokens = [];
       let replaceTokenObject = {};
-      info.location.replace(/\{(.*?)}/g, function(a, b) { tokens.push(b) })
-      tokens.forEach((token) => {        
+      info.location.replace(/\{(.*?)}/g, function (a, b) { tokens.push(b) })
+      tokens.forEach((token) => {
         replaceTokenObject[token] = state.referenceIds[token]
-        if(replaceTokenObject[token] === 'new') {
+        if (replaceTokenObject[token] === 'new') {
           isNew.new = true
           isNew.token = token
-        }          
+        }
       })
-      let docPath = format(info.location, replaceTokenObject)     
+      let docPath = format(info.location, replaceTokenObject)
       updateObj[info.screenName] = state.screenData[info.screenName]
-      let err, result      
-      if(isNew.new)  {
-        docPath = docPath.replace('/new', '')    
+      let err, result
+      if (isNew.new) {
+        docPath = docPath.replace('/new', '')
         updateObj.createdAt = new Date().toISOString()
-        updateObj.createdBy = state.currentUser.email        
+        updateObj.createdBy = state.currentUser.email
         const screenDef = state.mainUiLayout.screens.filter(obj => {
           return obj.name === info.screenName
-        }) 
-        const createWithIds = screenDef[0].createWithIds || []                
+        })
+        const createWithIds = screenDef[0].createWithIds || []
         createWithIds.forEach((id) => {
           updateObj[id] = state.referenceIds[id]
         });
         [err, result] = await to(firebase.db.collection(docPath).add(updateObj))
-      } else {        
+      } else {
         updateObj.lastUpdated = new Date().toISOString()
         updateObj.updatedBy = state.currentUser.email;
-        [ err ] = await to(firebase.db.doc(docPath).update(updateObj))
-      }                             
-      if(err) {
-        commit('setBackendError', err)        
+        [err] = await to(firebase.db.doc(docPath).update(updateObj))
+      }
+      if (err) {
+        commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else {           
-        if(isNew.new) {          
-          commit('setReferenceId', {ref: isNew.token, val: result.id })                    
-          commit('copyCurrentScreenData', info.screenName)          
+      } else {
+        if (isNew.new) {
+          commit('setReferenceId', { ref: isNew.token, val: result.id })
+          commit('copyCurrentScreenData', info.screenName)
           const screenDef = state.mainUiLayout.screens.filter(obj => {
             return obj.name === info.screenName
-          }) 
-          if(screenDef[0].reloadRouteOnCreate) {
+          })
+          if (screenDef[0].reloadRouteOnCreate) {
             router.push(router.currentRoute.path.replace('new', result.id))
-          }          
-        }else {
+          }
+        } else {
           commit('copyCurrentScreenData', info.screenName)
         }
         commit('setShowLoader', false)
-      }            
+      }
     },
     async searchForPatienceInPractice({ state }, searchTerm) {
       console.log('referenceIds', state.referenceIds)
       console.log('search term', searchTerm)
     },
     async fetchPatientTests({ commit, state }) {
-      if(state.referenceIds.practiceId) {
+      if (state.referenceIds.practiceId) {
         commit('setShowLoader', true)
         let patientTestsResults = []
-        let err, qResults              
+        let err, qResults
         [err, qResults] = await to(
-          firebase.testsCollection.where('patientId', '==', state.referenceIds.patientId || '').get())      
-        if(err) {
-          commit('setBackendError', err)        
+          firebase.testsCollection.where('patientId', '==', state.referenceIds.patientId || '').orderBy('dateOfTest', 'desc').get())
+        if (err) {
+          commit('setBackendError', err)
           commit('setShowLoader', false)
-        } else {        
-          qResults.forEach((doc) => {           
-            patientTestsResults.push({testId: doc.id, ...doc.data()})
-          })    
-          commit('setPatientTests', patientTestsResults)          
-          commit('setShowLoader', false)      
+        } else {
+          qResults.forEach((doc) => {
+            patientTestsResults.push({ testId: doc.id, ...doc.data() })
+          })
+          commit('setPatientTests', patientTestsResults)
+          commit('setShowLoader', false)
         }
-      }      
+      }
     },
-    async createPatientTest({commit, state}, info) {      
+    async createPatientTest({ commit, state }, info) {
       let updateObj = {}
       let err, result
       commit('setShowLoader', true)
       updateObj.createdAt = new Date().toISOString()
-      updateObj.createdBy = state.currentUser.email        
+      updateObj.createdBy = state.currentUser.email
       updateObj.patientId = state.referenceIds.patientId
-      updateObj.dateOfTest = info.toISOString().substr(0,10);
-      [err, result] = await to(firebase.db.collection('tests').add(updateObj))            
-      if(err) {
-        commit('setBackendError', err)        
+      updateObj.dateOfTest = info.toISOString().substr(0, 10);
+      [err, result] = await to(firebase.db.collection('tests').add(updateObj))
+      if (err) {
+        commit('setBackendError', err)
         commit('setShowLoader', false)
-      } else { 
+      } else {
         updateObj['testId'] = result.id
         commit('addPatientTest', updateObj)
         commit('setShowLoader', false)
@@ -230,21 +258,21 @@ export const store = new Vuex.Store({
     },
     clearPracticeData(state) {
       state.backendError = {},
-      state.mainUiLayout = {},
-      state.practice = {},
-      state.referenceIds = {},
-      state.patientSearchResults = [],
-      state.screenData = {},
-      state.currentScreenDataCopy = {}
+        state.mainUiLayout = {},
+        state.practice = {},
+        state.referenceIds = {},
+        state.patientSearchResults = [],
+        state.screenData = {},
+        state.currentScreenDataCopy = {}
     },
     resetCurrentScreenData(state, val) {
       Vue.set(state.screenData, val, cloneDeep(state.currentScreenDataCopy))
     },
     copyCurrentScreenData(state, val) {
-      state.currentScreenDataCopy = cloneDeep(state.screenData[val])      
+      state.currentScreenDataCopy = cloneDeep(state.screenData[val])
     },
-    setScreenData(state, val) {
-      Vue.set(state.screenData, val.ref, val.val)         
+    setScreenData(state, val) {      
+      Vue.set(state.screenData, val.ref, val.val)
     },
     setPatientSearchResults(state, val) {
       state.patientSearchResults = val
@@ -262,7 +290,7 @@ export const store = new Vuex.Store({
       state.currentUser = val
     },
     setUserProfile(state, val) {
-      state.userProfile = val            
+      state.userProfile = val
     },
     setShowLoader(state, val) {
       state.showLoader = val

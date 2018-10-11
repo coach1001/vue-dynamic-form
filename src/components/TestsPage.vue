@@ -20,13 +20,13 @@
         <b-tabs card @input="tabShown">
           <b-tab 
                   v-for="(screen, sIndex) in mainUiLayout.screens" 
-                  v-if="checkForIds(screen.requiredIds)"
+                  v-if="$fieldUtils.checkForRequiredIds(screen.requiredIds, referenceIds)"
                   :key="sIndex" 
                   :title="screen.label" class="p-4">        
             <form-generator 
                             :dataLocation="screen.dataLocation"
                             :schema="screen.schema" 
-                            v-model="screenData[screen.name]" 
+                            v-model="screenDataLocal[screen.name]"
                             :name="screen.name">
             </form-generator>        
           </b-tab>
@@ -57,7 +57,7 @@
 import FormGenerator from '../components/dynamicFormComponents/FormGenerator'
 import { mapState } from 'vuex'
 import UserAccessPage from './UserAccessPage'
-import Datepicker from 'vuejs-datepicker';
+import Datepicker from 'vuejs-datepicker'
 
 export default {
   name: 'TestsPage',
@@ -70,21 +70,42 @@ export default {
       showNewTestModal: false,
       newTestDate: null,
       firstLoad: true,
-      selectedTest: null
+      selectedTest: null,
+      currentIndex: null,
+      screenDataLocal: {}
+    }
+  },
+  watch: {
+    screenData: {
+      handler(newVal) {
+        this.screenDataLocal = newVal
+      },
+      deep: true
     }
   },
   methods: {
-    testSelected(selected) {
+    async testSelected(selected) {
       const testId = selected ? selected.testId : null
-      this.$store.commit('setReferenceId', { ref: 'testId', val: testId })
+      this.$store.commit('setReferenceId', { ref: 'testId', val: testId })      
+      await this.$store.dispatch('fetchTestData')                  
     },
     async tabShown(tIndex) {          
-      if(this.firstLoad) {                                
-        await this.$store.dispatch('fetchPatientTests')
-        this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[0].name)
+      this.currentIndex = tIndex
+      if(this.firstLoad) { 
+        if( this.$objectUtils.isEmpty(this.screenData.personalDetails) 
+            && this.referenceIds.patientId !== 'new') {
+              console.log('Got in here')            
+            await this.$store.dispatch('fetchDataFromLocation', { 
+              location: this.mainUiLayout.screens[tIndex].dataLocation, 
+              screenName: this.mainUiLayout.screens[tIndex].name
+            }
+          )
+        }                           
+        this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[tIndex].name)        
+        await this.$store.dispatch('fetchPatientTests')        
         this.selectedTest = this.patientTestsResults[0]
         this.firstLoad = false
-      } 
+      }             
       this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[tIndex].name)       
     },
     checkForIds(requiredIds) {
@@ -101,8 +122,9 @@ export default {
         return false
       }      
     },
-    createTest() {  
-      this.$store.dispatch('createPatientTest', this.newTestDate)          
+    async createTest() {  
+      await this.$store.dispatch('createPatientTest', this.newTestDate)
+      this.selectedTest = this.patientTestsResults[this.patientTestsResults.length - 1]
     },
     openNewTestDateModal() {
       this.newTestDate = null      

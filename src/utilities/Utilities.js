@@ -7,17 +7,17 @@ const fieldUtils = {
     return obj;
   },
   getInputClass(fieldType, full) {
-    if(full === true) {
+    if (full === true) {
       return 'col-12'
-    } else if(fieldType === 'ArrayInput' || fieldType === 'ObjectInput') {
+    } else if (fieldType === 'ArrayInput' || fieldType === 'ObjectInput') {
       return 'col-12'
     } else {
       return 'col-12 col-sm-12	col-md-6 col-lg-6 col-xl-6'
     }
   },
-  checkErrors(field, errors, $veeFields) { 
-    if($veeFields[field] !== undefined) {
-      if($veeFields[field].dirty) {
+  checkErrors(field, errors, $veeFields) {
+    if ($veeFields[field] !== undefined) {
+      if ($veeFields[field].dirty) {
         return !errors.has(field)
       } else {
         return null
@@ -26,10 +26,10 @@ const fieldUtils = {
     return null
   },
   markAllFiedsAsDirty($veeFields) {
-    if(!objectUtils.isEmpty($veeFields)) {
-      for(var key in $veeFields) {
+    if (!objectUtils.isEmpty($veeFields)) {
+      for (var key in $veeFields) {
         $veeFields[key].dirty = true
-      }  
+      }
     }
   },
   isVisible(data, property, value) {
@@ -99,6 +99,20 @@ const fieldUtils = {
       }
     }
   },
+  checkForRequiredIds(requiredIds, currentIds) {
+    const requiredIdcount = requiredIds.length
+    let count = 0
+    requiredIds.forEach((rId) => {
+      if (currentIds[rId]) {
+        count += 1
+      }
+    })
+    if (requiredIdcount === count) {
+      return true
+    } else {
+      return false
+    }
+  },
   checkDefaultValue(defaultValue, formValue) {
     if (formValue !== undefined) {
       return formValue
@@ -111,10 +125,10 @@ const fieldUtils = {
 
 const objectUtils = {
   isEmpty(obj) {
-    for(var prop in obj) {
-      if(obj.hasOwnProperty(prop))
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop))
         return false
-      }
+    }
     return true
   }
 }

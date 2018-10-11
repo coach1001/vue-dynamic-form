@@ -43,6 +43,7 @@ export default {
       await this.$store.dispatch('searchForPatienceInPractice', this.searchTerm)
     },
     async create() {
+      this.$store.commit('setScreenData', { ref: 'personalDetails', val: {} })
       this.$router.push(`/tests/new`)
     }
   },
