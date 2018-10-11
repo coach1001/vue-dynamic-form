@@ -75,16 +75,13 @@ export default {
   },
   methods: {
     testSelected(selected) {
-      console.log(selected)
+      const testId = selected ? selected.testId : null
+      this.$store.commit('setReferenceId', { ref: 'testId', val: testId })
     },
     async tabShown(tIndex) {          
-      if(tIndex === 0 && this.firstLoad) {                    
-        await this.$store.dispatch('fetchDataFromLocation', { 
-          location: this.mainUiLayout.screens[tIndex].dataLocation,
-          screenName: this.mainUiLayout.screens[tIndex].name
-        })              
-        this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[0].name)
+      if(this.firstLoad) {                                
         await this.$store.dispatch('fetchPatientTests')
+        this.$store.commit('copyCurrentScreenData', this.mainUiLayout.screens[0].name)
         this.selectedTest = this.patientTestsResults[0]
         this.firstLoad = false
       } 

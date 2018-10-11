@@ -42,6 +42,7 @@
                         label="Email address:">
             <b-form-input :state="$fieldUtils.checkErrors('email', errors, $veeFields)"
                           v-model="loginForm.userEmaiAddress"
+                          @input="loginError = null"
                           placeholder="Enter email"
                           v-validate="'required|email'"
                           name="email"
@@ -53,13 +54,16 @@
                         label="Email address:">
             <b-form-input :state="$fieldUtils.checkErrors('password', errors, $veeFields)"
                           v-model="loginForm.userPassword"
+                          @input="loginError = null"
                           placeholder="Enter password"
                           v-validate="'required|min:6'"
                           name="password"
                           type="password">
             </b-form-input>
           </b-form-group>
-          <span class="warning">{{ loginError }}</span>
+          <div class="mb-3">  
+            <span class="text-danger">{{ loginError }}</span>
+          </div>
           <b-button class="btn-block" type="submit" variant="primary">Sign in</b-button>
         </b-form>
       </b-card>

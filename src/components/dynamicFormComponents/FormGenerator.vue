@@ -1,6 +1,6 @@
 <template>
   <div>        
-    <b-row class="ml-01">      
+    <b-row class="ml-01 mb-3">      
       <b-button variant="outline-primary" @click="save">Save</b-button>
       <b-button variant="outline-info ml-2" @click="reset">Reset</b-button>      
     </b-row>        

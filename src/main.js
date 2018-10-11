@@ -1,4 +1,5 @@
 import Vue from 'vue'
+Vue.config.devtools = true
 import App from './App.vue'
 import router from './router'
 import VeeValidate from 'vee-validate'
@@ -20,7 +21,6 @@ Vue.use(VeeValidate, {
   fieldsBagName: '$veeFields'
 })
 Vue.use(BootstrapVue);
-
 Vue.component('v-select', vSelect)
 Vue.directive('mask', VueMaskDirective)
 

@@ -36,7 +36,7 @@ export default {
   methods: {
     rowClick(item) {     
       this.$store.commit('setPatientTests', [])
-      this.$store.commit('setScreenData', { ref: 'personalDetails', val: {} })                 
+      this.$store.commit('setScreenData', { ref: 'personalDetails', val: item.personalDetails })                 
       this.$router.push(`/tests/${item.patientId}`)
     },
     async search() {
@@ -48,7 +48,12 @@ export default {
   },
   data() {
     return {
-      fields: [ 'firstName', 'lastName', 'identityNumber', 'contactNumber' ],
+      fields: [ 
+        { key: 'personalDetails.patientDetails.firstName', label: 'First Name' }, 
+        { key: 'personalDetails.patientDetails.lastName', label: 'Last Name' }, 
+        { key: 'personalDetails.patientDetails.identityNumber', label: 'I.D. Number' },
+        { key: 'personalDetails.patientDetails.contactNumber', label: 'Contact Number'} 
+      ],
       currentPage: 1,
       perPage: 10,
       searchTerm: null
@@ -62,9 +67,7 @@ export default {
     }
   },
   created() {    
-    if(this.patientSearchResults.length === 0) {
-      this.$store.dispatch('fetchPracticePatients');   
-    }    
+    this.$store.dispatch('fetchPracticePatients');
   }
 }
 </script>

@@ -82,7 +82,7 @@ export const store = new Vuex.Store({
           commit('setShowLoader', false)
         } else {        
           qResults.forEach((doc) => {           
-            patientSearchResults.push({patientId: doc.id, ...doc.data().personalDetails.patientDetails})
+            patientSearchResults.push({patientId: doc.id, ...doc.data()})
           })    
           commit('setPatientSearchResults', patientSearchResults)
           commit('setShowLoader', false)      
