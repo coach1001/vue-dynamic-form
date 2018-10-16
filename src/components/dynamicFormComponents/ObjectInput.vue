@@ -6,8 +6,8 @@
                   :key="index"
                   :is="field.fieldType"
                   :value="formData[field.name]"
-                  :refData="formData"
                   @input="updateForm(field.name, $event)"
+                  :refData="formData"                  
                   v-bind="field"
                   :mask="field.fieldMask"                  
                   :class="$fieldUtils.getInputClass(field.fieldType, field.fullWidth)">
@@ -64,11 +64,11 @@ export default {
         }
       },
       deep: true
-    }    
+    }  
   },
   methods: {
-    updateForm(fieldName, value) {
-      this.$set(this.formData, fieldName, value)
+    updateForm(fieldName, value) {      
+      this.$set(this.formData, fieldName, value)        
       this.$emit('input', this.formData)      
     }
   }  

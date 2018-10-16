@@ -6,10 +6,10 @@ const fieldUtils = {
     });
     return obj;
   },
-  getInputClass(fieldType, full) {
-    if (full === true) {
+  getInputClass(fieldType, full) {    
+    if (full) {
       return 'col-12'
-    } else if (fieldType === 'ArrayInput' || fieldType === 'ObjectInput') {
+    } else if (fieldType === 'ArrayInput' || fieldType === 'ObjectInput' || fieldType === 'ModalInput') {
       return 'col-12'
     } else {
       return 'col-12 col-sm-12	col-md-6 col-lg-6 col-xl-6'

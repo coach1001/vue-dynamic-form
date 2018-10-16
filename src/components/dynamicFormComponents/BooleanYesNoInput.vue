@@ -26,11 +26,6 @@ export default {
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'      
   ],
-  data() {
-    return {
-      addTopMarginToEdit: false
-    }
-  },
   watch: {
     refData:{ 
       handler() {
@@ -43,7 +38,7 @@ export default {
   },
   methods: {
     valueClass(button) {
-      if(this.value === null) {
+      if(this.value === undefined) {
         return 'outline-primary'
       } else if (button === 'YES' && this.value === true) {
         return 'primary'
@@ -64,6 +59,11 @@ export default {
       if(this.openModal !== undefined) {
         this.$root.$emit('bv::show::modal', this.openModal)
       }
+    }
+  },
+  created() {    
+    if(this.value === undefined) {
+      this.$emit('input', false)
     }
   }
 }

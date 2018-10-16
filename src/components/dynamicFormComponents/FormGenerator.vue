@@ -62,13 +62,13 @@ export default {
   },
   methods: {
     updateForm(fieldName, value) {      
-      this.$set(this.formData, fieldName, value)      
+      this.$set(this.formData, fieldName, value)                
     },
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
-    async save() {      
-      this.formData = this.$fieldUtils.removeEmpty(this.formData)      
+    async save() {            
+      this.formData = this.$fieldUtils.removeEmpty(this.formData)            
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
         screenName: this.name        
