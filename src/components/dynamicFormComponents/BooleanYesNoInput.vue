@@ -10,7 +10,7 @@
                   @click="setFalse()">No</b-button>          
         <b-button :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   variant="secondary"
-                  v-if="dataValue && openModal !== undefined" @click="checkOpenModal()"                      
+                  v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
                   >Edit</b-button>
       </b-button-group>              
     </b-form-group>
@@ -28,28 +28,14 @@ export default {
   ],
   data() {
     return {
-      dataValue: null,
       addTopMarginToEdit: false
     }
   },
   watch: {
     refData:{ 
       handler() {
-        if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue)) {          
-          this.dataValue = undefined
+        if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue) && this.value !== undefined) {                    
           this.$emit('input', undefined)
-        }
-      },
-      deep: true
-    },
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.dataValue = null
-          this.$emit('input', this.dataValue)
-        } else if(newValue !== oldValue) {
-          this.dataValue = newValue
-          this.$emit('input', this.dataValue)
         }
       },
       deep: true
@@ -57,35 +43,27 @@ export default {
   },
   methods: {
     valueClass(button) {
-      if(this.dataValue === null) {
+      if(this.value === null) {
         return 'outline-primary'
-      } else if (button === 'YES' && this.dataValue === true) {
+      } else if (button === 'YES' && this.value === true) {
         return 'primary'
-      } else if (button === 'NO' && this.dataValue === false) {
+      } else if (button === 'NO' && this.value === false) {
         return 'primary'        
       } else {
         return 'outline-primary'
       }
     },
-    setTrue() {
-      this.dataValue = true
-      this.$emit('input', this.dataValue)
+    setTrue() {      
+      this.$emit('input', true)
       this.checkOpenModal()
     },
-    setFalse() {
-      this.dataValue = false
-      this.$emit('input', this.dataValue)
+    setFalse() {      
+      this.$emit('input', false)
     },
     checkOpenModal() {
       if(this.openModal !== undefined) {
         this.$root.$emit('bv::show::modal', this.openModal)
       }
-    }
-  },
-  created() {    
-    this.dataValue = this.$fieldUtils.checkDefaultValue(this.defaultValue, this.value)    
-    if(this.dataValue) {
-      this.$emit('input', this.dataValue)
     }
   }
 }

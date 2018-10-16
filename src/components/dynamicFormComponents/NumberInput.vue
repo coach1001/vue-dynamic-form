@@ -4,8 +4,8 @@
       <b-form-input type="number"
                     :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                     :name="name"
-                    :value="value"
-                    @input="(value)=> updateOnInput(value)"
+                    :value="value || defaultValue"
+                    @change="(val) => $emit('input',val)"
                     :placeholder="placeholder">
       </b-form-input>
     </b-form-group>    
@@ -21,45 +21,15 @@ export default {
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'    
   ],
-  methods: {
-    updateOnInput(changeValue) {
-      this.dataValue = changeValue
-      this.$emit('input', this.dataValue)
-    }
-  },
-  data() {
-    return {
-      dataValue: null
-    }
-  },  
   watch: {
     refData:{ 
       handler() {
-      if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue)) {
-          this.dataValue = undefined
+      if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue) && this.value !== undefined) {          
           this.$emit('input', undefined)
         }
       },
       deep: true
-    },
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.dataValue = null
-          this.$emit('input', this.dataValue)
-        } else if(newValue !== oldValue) {
-          this.dataValue = newValue
-          this.$emit('input', this.dataValue)
-        }
-      },
-      deep: true
-    }    
-  },
-  created() {
-    this.dataValue = this.$fieldUtils.checkDefaultValue(this.defaultValue, this.value)
-    if(this.dataValue) {
-      this.$emit('input', this.dataValue)
-    }
-  }
+    }  
+  }  
 }
 </script>

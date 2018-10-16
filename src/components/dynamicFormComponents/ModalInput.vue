@@ -68,12 +68,6 @@ export default {
     updateForm(fieldName, value) {
       this.$set(this.formData, fieldName, value)
       this.$emit('input', this.formData)
-    },
-    isEmpty(obj) {
-      for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) return false
-      }
-      return true
     }
   }
 }

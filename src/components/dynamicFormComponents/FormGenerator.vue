@@ -13,8 +13,8 @@
                       :key="index"
                       :is="field.fieldType"
                       :value="formData[field.name]"
-                      :refData="formData"
                       @input="updateForm(field.name, $event)"
+                      :refData="formData"                      
                       v-bind="field"
                       :mask="field.fieldMask"                      
                       :class="$fieldUtils.getInputClass(field.fieldType, field.fullWidth)">
@@ -62,15 +62,13 @@ export default {
   },
   methods: {
     updateForm(fieldName, value) {      
-      this.$set(this.formData, fieldName, value)
-      this.$emit('input', this.formData)      
+      this.$set(this.formData, fieldName, value)      
     },
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
     async save() {      
-      this.formData = this.$fieldUtils.removeEmpty(this.formData)
-      this.$emit('input', this.formData)      
+      this.formData = this.$fieldUtils.removeEmpty(this.formData)      
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
         screenName: this.name        

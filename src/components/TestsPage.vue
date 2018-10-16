@@ -26,7 +26,7 @@
             <form-generator 
                             :dataLocation="screen.dataLocation"
                             :schema="screen.schema" 
-                            v-model="screenDataLocal[screen.name]"
+                            :value="screenData[screen.name]"
                             :name="screen.name">
             </form-generator>        
           </b-tab>
@@ -71,16 +71,7 @@ export default {
       newTestDate: null,
       firstLoad: true,
       selectedTest: null,
-      currentIndex: null,
-      screenDataLocal: {}
-    }
-  },
-  watch: {
-    screenData: {
-      handler(newVal) {
-        this.screenDataLocal = newVal
-      },
-      deep: true
+      currentIndex: null      
     }
   },
   methods: {
@@ -93,8 +84,7 @@ export default {
       this.currentIndex = tIndex
       if(this.firstLoad) { 
         if( this.$objectUtils.isEmpty(this.screenData.personalDetails) 
-            && this.referenceIds.patientId !== 'new') {
-              console.log('Got in here')            
+            && this.referenceIds.patientId !== 'new') {                          
             await this.$store.dispatch('fetchDataFromLocation', { 
               location: this.mainUiLayout.screens[tIndex].dataLocation, 
               screenName: this.mainUiLayout.screens[tIndex].name
@@ -129,7 +119,7 @@ export default {
     openNewTestDateModal() {
       this.newTestDate = null      
       this.$refs.newTestDateModal.show()
-    }    
+    }
   },  
   async created() {
     let keyVal = null
