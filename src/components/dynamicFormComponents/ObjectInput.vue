@@ -24,6 +24,7 @@ import TextInput from './TextInput'
 import TextAreaInput from './TextAreaInput'
 import DatePickerInput from './DatePickerInput'
 import BooleanYesNoInput from './BooleanYesNoInput'
+// import isEqual from 'lodash-es/isEqual'
 
 export default {
   name: 'ObjectInput',
@@ -39,11 +40,13 @@ export default {
   ],
   data() {
     return {
-      formData: this.value || {},
-      dataCleared: false
+      formData: this.value || {}
     }
   },
   watch: {
+    value(newValue) {
+      this.formData = newValue || {}
+    },
     refData:{ 
       handler() {
         if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue) && !this.$objecUtils.isEmpty(this.formData)) {
@@ -52,19 +55,7 @@ export default {
         }
       },
       deep: true
-    },
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.formData = {}
-          this.$emit('input', this.formData)          
-        } else if(newValue !== oldValue) {
-          this.formData = newValue
-          this.$emit('input', this.formData)
-        }
-      },
-      deep: true
-    }  
+    }
   },
   methods: {
     updateForm(fieldName, value) {      

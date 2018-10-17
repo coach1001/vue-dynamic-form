@@ -1,8 +1,15 @@
 const fieldUtils = {
   removeEmpty(obj) {
     Object.keys(obj).forEach(key => {
-      if (obj[key] && typeof obj[key] === 'object') this.removeEmpty(obj[key]);
-      else if (obj[key] === undefined) delete obj[key];
+      if (obj[key] && typeof obj[key] === 'object' && objectUtils.isEmpty(obj[key])) {
+        delete obj[key]; 
+      } else if(obj[key] && typeof obj[key] === 'object') {
+        this.removeEmpty(obj[key]);
+      } else if(obj[key] && Array.isArray(obj[key]) && obj[key].length < 1) {
+        delete obj[key];
+      } else if (obj[key] === undefined) {
+        delete obj[key];
+      }  
     });
     return obj;
   },
@@ -130,6 +137,9 @@ const objectUtils = {
         return false
     }
     return true
+  },
+  printJSON(obj) {
+    return JSON.stringify(obj)
   }
 }
 

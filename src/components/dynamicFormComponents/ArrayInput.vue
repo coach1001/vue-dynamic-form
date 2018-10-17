@@ -17,9 +17,9 @@
           </b-row>
         </div>       
       </b-row>
-      <b-card-footer>
+      <div slot="footer"> 
         <b-button variant="primary" @click="addRow()">Add</b-button>
-      </b-card-footer>  
+      </div>
     </b-card>    
   </div>  
 </template>
@@ -46,26 +46,17 @@ export default {
   ],  
   data() {
     return {
-      formData: this.value || {}
+      formData: this.value || []
     }
   },
   watch: {
+    value(newValue) {
+      this.formData = newValue || []
+    },
     refData:{ 
       handler() {
         if(this.clearWhen !== undefined && !this.refData[this.clearWhen] && this.formData.length > 0 ) {
           this.formData = []
-          this.$emit('input', this.formData)
-        }
-      },
-      deep: true
-    },
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.formData = []
-          this.$emit('input', this.dataValue)
-        } else if(newValue !== oldValue) {
-          this.formData = newValue
           this.$emit('input', this.formData)
         }
       },

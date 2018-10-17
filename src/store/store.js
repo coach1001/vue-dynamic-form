@@ -190,18 +190,17 @@ export const store = new Vuex.Store({
         commit('setBackendError', err)
         commit('setShowLoader', false)
       } else {
+        
         if (isNew.new) {
           commit('setReferenceId', { ref: isNew.token, val: result.id })
-          commit('copyCurrentScreenData', info.screenName)
           const screenDef = state.mainUiLayout.screens.filter(obj => {
             return obj.name === info.screenName
           })
           if (screenDef[0].reloadRouteOnCreate) {
             router.push(router.currentRoute.path.replace('new', result.id))
           }
-        } else {
-          commit('copyCurrentScreenData', info.screenName)
         }
+        commit('copyCurrentScreenData', info.screenName)
         commit('setShowLoader', false)
       }
     },
@@ -258,12 +257,12 @@ export const store = new Vuex.Store({
     },
     clearPracticeData(state) {
       state.backendError = {},
-        state.mainUiLayout = {},
-        state.practice = {},
-        state.referenceIds = {},
-        state.patientSearchResults = [],
-        state.screenData = {},
-        state.currentScreenDataCopy = {}
+      state.mainUiLayout = {},
+      state.practice = {},
+      state.referenceIds = {},
+      state.patientSearchResults = [],
+      state.screenData = {},
+      state.currentScreenDataCopy = {}
     },
     resetCurrentScreenData(state, val) {
       Vue.set(state.screenData, val, cloneDeep(state.currentScreenDataCopy))

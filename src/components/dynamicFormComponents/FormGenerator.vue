@@ -36,6 +36,7 @@ import ObjectInput from './ObjectInput'
 import DatePickerInput from './DatePickerInput'
 import BooleanYesNoInput from './BooleanYesNoInput'
 import ModalInput from './ModalInput'
+// import isEqual from 'lodash-es/isEqual'
 
 export default {
   name: 'FormGenerator',
@@ -47,28 +48,20 @@ export default {
     }
   },
   watch: {
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.formData = {}
-          this.$emit('input', this.formData)
-        } else if(newValue !== oldValue) {
-          this.formData = newValue
-          this.$emit('input', this.formData)
-        }
-      },
-      deep: true
-    }    
+    value(newValue) {
+      this.formData = newValue || {}
+    }
   },
   methods: {
     updateForm(fieldName, value) {      
-      this.$set(this.formData, fieldName, value)                
+      this.$set(this.formData, fieldName, value)           
     },
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
     async save() {            
       this.formData = this.$fieldUtils.removeEmpty(this.formData)            
+      this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
         screenName: this.name        

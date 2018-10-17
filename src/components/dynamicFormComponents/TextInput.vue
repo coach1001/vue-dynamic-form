@@ -10,7 +10,7 @@
                     :placeholder="placeholder">
       </b-form-input>
     </b-form-group>    
-  </div>  
+  </div>
 </template>
 
 <script>

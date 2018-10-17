@@ -9,7 +9,7 @@
                   :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   :name="name"
                   :value="value || defaultValue"
-                  @input="(val) => $emit('input',val.toISOString().substr(0,10))"
+                  @input="(val) => $emit('input', val.toISOString().substr(0,10))"
                   :placeholder="placeholder">
       </datepicker>
     </b-form-group>

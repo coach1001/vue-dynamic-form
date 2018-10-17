@@ -41,28 +41,18 @@ export default {
     }
   },
   watch: {
+    value(newValue) {
+      this.formData = newValue || {}
+    },
     refData: {
       handler() {
-        if (this.$fieldUtils.canClear(this.refData,this.clearWhen,this.clearWhenValue) &&
-          !this.$objectUtils.isEmpty(this.formData)) {
+        if (this.$fieldUtils.canClear(this.refData,this.clearWhen,this.clearWhenValue) && !this.$objectUtils.isEmpty(this.formData)) {
           this.formData = {}
           this.$emit('input', this.formData)
         }
       },
       deep: true
-    },
-    value:{ 
-      handler(newValue, oldValue) {
-        if(newValue === undefined) {
-          this.formData = {}
-          this.$emit('input', this.formData)
-        } else if(newValue !== oldValue) {
-          this.formData = newValue
-          this.$emit('input', this.formData)
-        }
-      },
-      deep: true
-    }    
+    }
   },
   methods: {
     updateForm(fieldName, value) {

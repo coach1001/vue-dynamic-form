@@ -78,7 +78,7 @@ export default {
     async testSelected(selected) {
       const testId = selected ? selected.testId : null
       this.$store.commit('setReferenceId', { ref: 'testId', val: testId })      
-      await this.$store.dispatch('fetchTestData')                  
+      await this.$store.dispatch('fetchTestData')                
     },
     async tabShown(tIndex) {          
       this.currentIndex = tIndex
@@ -122,6 +122,7 @@ export default {
     }
   },  
   async created() {
+    this.$store.commit('setReferenceId', { ref: 'testId', val: null }) 
     let keyVal = null
       Object.keys(this.$route.params).map((key) => {           
       keyVal = this.$route.params[key]

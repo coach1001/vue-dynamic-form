@@ -11,7 +11,7 @@
         <b-button :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   variant="secondary"
                   v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
-                  >Edit</b-button>
+                  >Edit Details</b-button>
       </b-button-group>              
     </b-form-group>
   </div>  
@@ -27,6 +27,13 @@ export default {
     'enabledWhen', 'enabledWhenValue'      
   ],
   watch: {
+    value(newValue, oldValue) {
+      if(newValue !== oldValue) {        
+        if(newValue === undefined) {
+          this.$emit('input', this.defaultValue === 'true' ? true : false)
+        }
+      }
+    }, 
     refData:{ 
       handler() {
         if(this.$fieldUtils.canClear(this.refData, this.clearWhen, this.clearWhenValue) && this.value !== undefined) {                    
@@ -63,7 +70,7 @@ export default {
   },
   created() {    
     if(this.value === undefined) {
-      this.$emit('input', false)
+      this.$emit('input', this.defaultValue === 'true' ? true : false)
     }
   }
 }

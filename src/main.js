@@ -20,7 +20,7 @@ Vue.use(VeeValidate, {
   inject: true, 
   fieldsBagName: '$veeFields'
 })
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue)
 Vue.component('v-select', vSelect)
 Vue.directive('mask', VueMaskDirective)
 
@@ -29,8 +29,8 @@ Vue.prototype.$fieldUtils = fieldUtils
 Vue.prototype.$objectUtils = objectUtils
 
 String.prototype.toProperCase = function () {
-  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-};
+  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()})
+}
 
 let app
 firebase.auth.onAuthStateChanged((user) => {
