@@ -3,7 +3,6 @@
     <b-form-group :label="label">
       <datepicker
                   format="yyyy-MM-dd"
-                  v-mask="'####-##-##'" 
                   :bootstrap-styling="true" 
                   :typeable="true"
                   :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"

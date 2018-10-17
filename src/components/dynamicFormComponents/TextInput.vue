@@ -5,8 +5,7 @@
                     :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                     :name="name"
                     :value="value || defaultValue"                    
-                    @change="(val) => $emit('input',val)"
-                    v-mask="mask || ''"
+                    @change="(val) => $emit('input',val)"                    
                     :placeholder="placeholder">
       </b-form-input>
     </b-form-group>    

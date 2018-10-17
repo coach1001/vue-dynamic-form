@@ -11,7 +11,7 @@
         <b-button :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   variant="secondary"
                   v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
-                  >Edit Details</b-button>
+                  >Details</b-button>
       </b-button-group>              
     </b-form-group>
   </div>  

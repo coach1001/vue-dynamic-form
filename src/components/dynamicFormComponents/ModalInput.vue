@@ -1,5 +1,13 @@
 <template>
-  <b-modal :id="name" :size="size" :title="label" centered>
+  <b-modal :id="name" :size="size" centered>
+    <div slot="modal-header" class="w-100" >      
+        <b-row>
+          <b-col cols="12" md="auto"><strong>{{label}}</strong></b-col>                    
+        </b-row>
+        <b-row v-if="subTitle">
+          <b-col cols="12" md="auto">{{subTitle}}</b-col>
+        </b-row>      
+    </div>
     <b-row>
       <component v-for="(field, index) in schema"                
                 :name="field.name"
@@ -32,7 +40,7 @@ export default {
     ObjectInput: () => import('./ObjectInput'),
     NumberInput, SelectList, TextInput, DatePickerInput, BooleanYesNoInput, TextAreaInput },
   props: [
-    'schema', 'label', 'name', 'value', 'refData', 'size',
+    'schema', 'label', 'name', 'value', 'refData', 'size', 'subTitle',
     'clearWhen','clearWhenValue'
   ],
   data() {

@@ -5,9 +5,8 @@
                       :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                       :name="name"
                       :value="value || defaultValue"
-                      @change="(val) => $emit('input',val)"
-                      :placeholder="placeholder"
-                      v-mask="mask || ''"                      
+                      @input="(val) => $emit('input',val)"
+                      :placeholder="placeholder"                      
                       :rows="5"
                       :max-rows="6">
       </b-form-textarea>    

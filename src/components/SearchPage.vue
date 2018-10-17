@@ -2,7 +2,7 @@
   <div>                  
     <b-btn variant="primary mb-3" @click.prevent="create">New Patient</b-btn>      
     <b-input-group class="mb-3">
-      <b-input-group-prepend>
+      <b-input-group-prepend> 
         <b-btn variant="outline-primary" @click.prevent="search">Search</b-btn>
       </b-input-group-prepend>
       <b-form-input type="text"

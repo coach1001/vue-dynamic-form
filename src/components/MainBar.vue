@@ -17,7 +17,7 @@
             <b-col class="text-right">{{practice.name || ''}}</b-col>
           </b-col>
         </b-nav-item>          
-        <b-nav-item class="align-self-center" v-if="currentUser" @click="logout">Logout</b-nav-item>
+        <b-nav-item v-if="currentUser" @click="logout">Logout</b-nav-item>
         <b-nav-item v-if="!currentUser" @click="pushRoute('/login')">Login</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
