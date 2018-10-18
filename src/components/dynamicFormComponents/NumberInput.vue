@@ -3,10 +3,11 @@
     <b-form-group :label="label">
       <b-form-input type="number"
                     :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
-                    :name="name"
+                    :name="`${$fieldUtils.parentName(parentName)}${name}`"
                     :value="value || defaultValue"
                     @change="(val) => $emit('input',val)"
-                    :placeholder="placeholder">
+                    :placeholder="placeholder"
+                    v-validate="'required'">
       </b-form-input>
     </b-form-group>    
   </div>
@@ -15,9 +16,9 @@
 <script>
 export default {
   name: 'NumberInput',
-  inject: ['$validator'],
+  inject: ['$validator'], 
   props: [
-    'placeholder', 'label', 'name', 'value','refData', 'defaultValue',
+    'placeholder', 'label', 'name', 'value','refData', 'defaultValue', 'parentName',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'    

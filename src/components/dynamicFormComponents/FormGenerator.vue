@@ -9,7 +9,7 @@
         <b-form @submit.prevent="save"> 
           <b-row>             
             <component v-for="(field, index) in schema"                
-                      :name="field.name"
+                      :name="field.name"                      
                       :key="index"
                       :is="field.fieldType"
                       :value="formData[field.name]"
@@ -38,13 +38,13 @@ import BooleanYesNoInput from './BooleanYesNoInput'
 import ModalInput from './ModalInput'
 
 export default {
-  name: 'FormGenerator',
-  inject: ['$validator'],
+  name: 'FormGenerator',     
   components: { NumberInput, SelectList, TextInput, ArrayInput, ObjectInput, DatePickerInput, BooleanYesNoInput, ModalInput, TextAreaInput },
   props: ['schema', 'value', 'name', 'dataLocation'],
   data() {
     return {
-      formData: this.value || {}
+      formData: this.value || {},
+      formValidators: []
     }
   },
   watch: {
@@ -60,15 +60,14 @@ export default {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
     async save() {        
-      this.formData = this.$fieldUtils.removeEmpty(this.formData) 
-      this.$validator.validateAll();
-      console.log(this)
-      // console.log(this)
-      this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
+      this.formData = this.$fieldUtils.removeEmpty(this.formData)       
+      this.$validator.validateAll()
+      console.log(this.$veeFields);
+      /*this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
         screenName: this.name        
-      })
+      })*/
     }
   }
 }

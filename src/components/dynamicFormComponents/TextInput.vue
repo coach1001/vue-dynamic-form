@@ -3,11 +3,11 @@
     <b-form-group :label="label">
       <b-form-input type="text"
                     :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
-                    :name="name"
+                    :name="`${$fieldUtils.parentName(parentName)}${name}`"
                     :value="value || defaultValue"                    
                     @change="(val) => $emit('input', val)"                    
                     :placeholder="placeholder"
-                    v-validate="validation || {}">
+                    v-validate="'required'">
       </b-form-input>
     </b-form-group>    
   </div>
@@ -18,7 +18,7 @@ export default {
   name: 'TextInput',
   inject: ['$validator'],
   props: [
-    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask', 'validation', 
+    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask', 'validation', 'parentName', 
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'    

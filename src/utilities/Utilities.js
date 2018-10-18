@@ -1,9 +1,21 @@
 const fieldUtils = {
+  parentName(name) {    
+    if(name !== undefined) {
+      return `${name}_`
+    } else {
+      return ''
+    }
+  },
   removeEmpty(obj) {
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key, index) => {
       if (obj[key] && typeof obj[key] === 'object' && objectUtils.isEmpty(obj[key])) {
-        delete obj[key]; 
-      } else if(obj[key] && typeof obj[key] === 'object') {
+        if(Array.isArray(obj)) {
+          obj.splice(index, 1)          
+        } else {
+          delete obj[key]
+        }        
+      } else 
+      if(obj[key] && typeof obj[key] === 'object') {
         this.removeEmpty(obj[key]);
       } else if(obj[key] && Array.isArray(obj[key]) && obj[key].length < 1) {
         delete obj[key];

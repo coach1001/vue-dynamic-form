@@ -8,6 +8,7 @@
                 :key="index"
                 :is="field.fieldType"
                 :value="formData[vIndex][field.name]"
+                :parentName="`${$fieldUtils.parentName(parentName)}${name}_${vIndex}`"
                 :refData="formData[vIndex]"
                 @input="updateForm(field.name, $event, vIndex)"
                 :mask="field.fieldMask"               
@@ -33,15 +34,15 @@ import TextAreaInput from './TextAreaInput'
 import DatePickerInput from './DatePickerInput'
 
 export default {
-  name: 'ArrayInput',
-  inject: ['$validator'],
+  name: 'ArrayInput', 
+  inject: ['$validator'], 
   components: { 
     ModalInput: () => import('./ModalInput'),  
     ArrayInput: () => import('./ArrayInput'),
     ObjectInput: () => import('./ObjectInput'),
     NumberInput, SelectList, TextInput, DatePickerInput, BooleanYesNoInput, TextAreaInput },
   props: [
-    'schema', 'label', 'name', 'value','refData', 
+    'schema', 'label', 'name', 'value','refData', 'parentName',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue'
   ],  

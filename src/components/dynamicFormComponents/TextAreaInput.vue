@@ -7,8 +7,9 @@
                       :value="value || defaultValue"
                       @input="(val) => $emit('input',val)"
                       :placeholder="placeholder"                      
-                      :rows="5"
-                      :max-rows="6">
+                      :rows="5"                      
+                      :max-rows="6"
+                      v-validate="'required'">
       </b-form-textarea>    
     </b-form-group>
   </div>  

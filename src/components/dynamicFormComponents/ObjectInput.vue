@@ -3,7 +3,8 @@
     <b-card border-variant="info" :header="label">  
       <b-row>
         <component v-for="(field, index) in schema"
-                  :key="index"
+                  :key="index"                  
+                  :parentName="`${$fieldUtils.parentName(parentName)}${name}`"
                   :is="field.fieldType"
                   :value="formData[field.name]"
                   @input="updateForm(field.name, $event)"
@@ -24,7 +25,6 @@ import TextInput from './TextInput'
 import TextAreaInput from './TextAreaInput'
 import DatePickerInput from './DatePickerInput'
 import BooleanYesNoInput from './BooleanYesNoInput'
-// import isEqual from 'lodash-es/isEqual'
 
 export default {
   name: 'ObjectInput',
@@ -35,7 +35,7 @@ export default {
     ObjectInput: () => import('./ObjectInput'),
     NumberInput, SelectList, TextInput, DatePickerInput, BooleanYesNoInput, TextAreaInput },
   props: [
-    'schema', 'label', 'name', 'value','refData', 
+    'schema', 'label', 'name', 'value','refData', 'parentName',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue'        
   ],
@@ -62,7 +62,7 @@ export default {
     updateForm(fieldName, value) {      
       this.$set(this.formData, fieldName, value)        
       this.$emit('input', this.formData)      
-    }
+    }    
   }  
 }
 </script>

@@ -9,8 +9,8 @@
         </b-row>      
     </div>
     <b-row>
-      <component v-for="(field, index) in schema"                
-                :name="field.name"
+      <component v-for="(field, index) in schema" 
+                :name="`${$fieldUtils.parentName(parentName)}${field.name}`"                
                 :key="index"
                 :is="field.fieldType"
                 :value="formData[field.name]"
@@ -41,7 +41,7 @@ export default {
     ObjectInput: () => import('./ObjectInput'),
     NumberInput, SelectList, TextInput, DatePickerInput, BooleanYesNoInput, TextAreaInput },
   props: [
-    'schema', 'label', 'name', 'value', 'refData', 'size', 'subTitle',
+    'schema', 'label', 'name', 'value', 'refData', 'size', 'subTitle', 'parentName',
     'clearWhen','clearWhenValue'
   ],
   data() {

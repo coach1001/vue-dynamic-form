@@ -11,8 +11,7 @@
           </v-select>
         </b-form-group>        
       </b-col>         
-      <b-col class="new-test-button mb-3">
-        <!-- <b-button variant="primary" @click.prevent="openNewTestDateModal">New Test</b-button>      -->
+      <b-col class="new-test-button mb-3">        
         <b-btn variant="primary" @click.prevent="openNewTestDateModal" class="icon-button-before">
           <span class="h-icon icon-icon-105-folder-add"></span>
           <span style="font-family: 'Poppins', sans-serif;">New Test</span>
@@ -64,7 +63,7 @@ import UserAccessPage from './UserAccessPage'
 import Datepicker from 'vuejs-datepicker'
 
 export default {
-  name: 'TestsPage',
+  name: 'TestsPage',  
   components: { FormGenerator, UserAccessPage, Datepicker },
   computed: {
     ...mapState(['mainUiLayout', 'setReferenceId', 'screenData', 'referenceIds', 'patientTestsResults'])

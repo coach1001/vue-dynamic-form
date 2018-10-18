@@ -12,6 +12,10 @@
                   variant="secondary"
                   v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
                   >Details</b-button>
+        <input 
+              hidden :value="value"
+              :name="`${$fieldUtils.parentName(parentName)}${name}`"
+              v-validate="'required'"/>
       </b-button-group>              
     </b-form-group>
   </div>  
@@ -19,10 +23,10 @@
 
 <script>
 export default {
-  name: 'BooleanYesNoInput',
-  inject: ['$validator'],
+  name: 'BooleanYesNoInput', 
+  inject: ['$validator'],   
   props: [
-    'label', 'name', 'value', 'refData', 'openModal', 'defaultValue',
+    'label', 'name', 'value', 'refData', 'openModal', 'defaultValue', 'parentName',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'      
