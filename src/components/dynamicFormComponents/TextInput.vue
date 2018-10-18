@@ -5,8 +5,9 @@
                     :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                     :name="name"
                     :value="value || defaultValue"                    
-                    @change="(val) => $emit('input',val)"                    
-                    :placeholder="placeholder">
+                    @change="(val) => $emit('input', val)"                    
+                    :placeholder="placeholder"
+                    v-validate="validation || {}">
       </b-form-input>
     </b-form-group>    
   </div>
@@ -15,8 +16,9 @@
 <script>
 export default {
   name: 'TextInput',
+  inject: ['$validator'],
   props: [
-    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask',
+    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask', 'validation', 
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'    

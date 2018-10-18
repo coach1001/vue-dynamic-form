@@ -17,6 +17,7 @@
 <script>
 export default {
   name: 'TextAreaInput',
+  inject: ['$validator'],
   props: [
     'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask',
     'visibleWhen', 'visibleWhenValue', 

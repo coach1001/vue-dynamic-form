@@ -15,6 +15,7 @@ const firebase = require('./firebase/firebaseConfig.js')
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './styles.css'
+import './assets/hawcons.css'
 
 Vue.use(VeeValidate, {
   inject: true, 

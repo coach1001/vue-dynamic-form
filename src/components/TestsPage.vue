@@ -12,7 +12,11 @@
         </b-form-group>        
       </b-col>         
       <b-col class="new-test-button mb-3">
-        <b-button variant="primary" @click.prevent="openNewTestDateModal">New Test</b-button>              
+        <!-- <b-button variant="primary" @click.prevent="openNewTestDateModal">New Test</b-button>      -->
+        <b-btn variant="primary" @click.prevent="openNewTestDateModal" class="icon-button-before">
+          <span class="h-icon icon-icon-105-folder-add"></span>
+          <span style="font-family: 'Poppins', sans-serif;">New Test</span>
+        </b-btn> 
       </b-col>
     </b-row>
     <div class="mb-3">

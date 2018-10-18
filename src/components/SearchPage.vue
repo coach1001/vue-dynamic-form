@@ -1,6 +1,11 @@
 <template>
-  <div>                  
-    <b-btn variant="primary mb-3" @click.prevent="create">New Patient</b-btn>      
+  <div>      
+    
+    <b-btn variant="primary mb-3" @click.prevent="create" class="icon-button-before">
+      <span class="h-icon icon-icon-33-clipboard-add"></span>
+      <span style="font-family: 'Poppins', sans-serif;">New Patient</span>
+    </b-btn> 
+
     <b-input-group class="mb-3">
       <b-input-group-prepend> 
         <b-btn variant="outline-primary" @click.prevent="search">Search</b-btn>

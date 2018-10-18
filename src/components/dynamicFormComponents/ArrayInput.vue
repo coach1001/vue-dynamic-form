@@ -34,6 +34,7 @@ import DatePickerInput from './DatePickerInput'
 
 export default {
   name: 'ArrayInput',
+  inject: ['$validator'],
   components: { 
     ModalInput: () => import('./ModalInput'),  
     ArrayInput: () => import('./ArrayInput'),

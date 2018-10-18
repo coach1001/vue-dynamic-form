@@ -20,6 +20,7 @@ import Datepicker from 'vuejs-datepicker';
 
 export default {
   name: 'DatePickerInput',
+  inject: ['$validator'],
   props: [
     'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue',
     'visibleWhen', 'visibleWhenValue', 

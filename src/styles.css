@@ -113,3 +113,13 @@ html {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #ced4da !important;;
 }
+
+.icon-button-before {
+  display: flex;
+  align-items: center;
+}
+
+.h-icon {
+  font-size: 2rem;
+  margin-right: 7px;
+}

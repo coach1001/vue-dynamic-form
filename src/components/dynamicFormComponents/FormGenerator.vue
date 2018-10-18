@@ -6,7 +6,7 @@
     </b-row>        
     <b-row align-h="center">  
       <b-col>                          
-        <b-form @submit.prevent="onSubmit"> 
+        <b-form @submit.prevent="save"> 
           <b-row>             
             <component v-for="(field, index) in schema"                
                       :name="field.name"
@@ -16,7 +16,7 @@
                       @input="updateForm(field.name, $event)"
                       :refData="formData"                      
                       v-bind="field"
-                      :mask="field.fieldMask"                      
+                      :mask="field.fieldMask"                    
                       :class="$fieldUtils.getInputClass(field.fieldType, field.fullWidth)">
             </component>
           </b-row>           
@@ -36,12 +36,12 @@ import ObjectInput from './ObjectInput'
 import DatePickerInput from './DatePickerInput'
 import BooleanYesNoInput from './BooleanYesNoInput'
 import ModalInput from './ModalInput'
-// import isEqual from 'lodash-es/isEqual'
 
 export default {
   name: 'FormGenerator',
+  inject: ['$validator'],
   components: { NumberInput, SelectList, TextInput, ArrayInput, ObjectInput, DatePickerInput, BooleanYesNoInput, ModalInput, TextAreaInput },
-  props: ['schema', 'value', 'name', 'dataLocation'],  
+  props: ['schema', 'value', 'name', 'dataLocation'],
   data() {
     return {
       formData: this.value || {}
@@ -59,8 +59,11 @@ export default {
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
-    async save() {            
-      this.formData = this.$fieldUtils.removeEmpty(this.formData)            
+    async save() {        
+      this.formData = this.$fieldUtils.removeEmpty(this.formData) 
+      this.$validator.validateAll();
+      console.log(this)
+      // console.log(this)
       this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,

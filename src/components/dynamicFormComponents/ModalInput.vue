@@ -34,6 +34,7 @@ import BooleanYesNoInput from './BooleanYesNoInput'
 
 export default {
   name: 'ModalInput',
+  inject: ['$validator'],
   components: { 
     ModalInput: () => import('./ModalInput'),  
     ArrayInput: () => import('./ArrayInput'),

@@ -12,6 +12,7 @@
 <script>
 export default {
   name: 'SelectList',
+  inject: ['$validator'],
   props: [
     'multi', 'options', 'label', 'name', 'value', 'refData', 'defaultValue',
     'visibleWhen', 'visibleWhenValue', 

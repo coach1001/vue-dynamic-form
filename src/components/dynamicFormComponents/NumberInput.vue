@@ -15,6 +15,7 @@
 <script>
 export default {
   name: 'NumberInput',
+  inject: ['$validator'],
   props: [
     'placeholder', 'label', 'name', 'value','refData', 'defaultValue',
     'visibleWhen', 'visibleWhenValue', 

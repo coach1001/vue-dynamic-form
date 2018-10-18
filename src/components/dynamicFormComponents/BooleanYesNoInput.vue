@@ -20,6 +20,7 @@
 <script>
 export default {
   name: 'BooleanYesNoInput',
+  inject: ['$validator'],
   props: [
     'label', 'name', 'value', 'refData', 'openModal', 'defaultValue',
     'visibleWhen', 'visibleWhenValue', 
