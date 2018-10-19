@@ -1,6 +1,8 @@
 <template>  
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">    
-    <b-form-group :label="label">      
+    <b-form-group :label="label"
+                  :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
+                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">
       <b-button-group>
         <b-button :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   :variant="valueClass('YES')"
@@ -12,11 +14,13 @@
                   variant="secondary"
                   v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
                   >Details</b-button>
-        <input 
-              hidden :value="value"
-              :name="`${$fieldUtils.parentName(parentName)}${name}`"
-              v-validate="'required'"/>
       </b-button-group>              
+      <input
+            :data-vv-as="label"
+            :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)"               
+            hidden :value="value"
+            :name="`${$fieldUtils.parentName(parentName)}${name}`"
+            v-validate="'required'"/>      
     </b-form-group>
   </div>  
 </template>

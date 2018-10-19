@@ -36,11 +36,7 @@ const fieldUtils = {
   },
   checkErrors(field, errors, $veeFields) {
     if ($veeFields[field] !== undefined) {
-      if ($veeFields[field].dirty) {
-        return !errors.has(field)
-      } else {
-        return null
-      }
+      return !errors.has(field) ? null : false
     }
     return null
   },

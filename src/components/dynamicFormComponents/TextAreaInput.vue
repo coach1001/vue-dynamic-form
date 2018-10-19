@@ -1,7 +1,11 @@
 <template>  
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">    
-    <b-form-group :label="label">
+    <b-form-group :label="label"
+                  :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
+                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">
       <b-form-textarea 
+                      :data-vv-as="label"
+                      :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)"
                       :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                       :name="name"
                       :value="value || defaultValue"
@@ -9,7 +13,8 @@
                       :placeholder="placeholder"                      
                       :rows="5"                      
                       :max-rows="6"
-                      v-validate="'required'">
+                      @blur.native="$validator.validate(`${$fieldUtils.parentName(parentName)}${name}`)"
+                      v-validate="validation">
       </b-form-textarea>    
     </b-form-group>
   </div>  
@@ -20,7 +25,7 @@ export default {
   name: 'TextAreaInput',
   inject: ['$validator'],
   props: [
-    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask',
+    'placeholder', 'label', 'name', 'value', 'refData', 'defaultValue', 'mask', 'validation', 'parentName',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'    
