@@ -2,7 +2,7 @@
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">
     <b-form-group :label="label"     
                   :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
-                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">      
+                  :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null">      
       <v-select 
                 :data-vv-as="label"                    
                 v-model="value"                
@@ -11,7 +11,8 @@
                 :value="value || defaultValue"
                 :options="options"              
                 :on-change="(val) => {$emit('input',val)}"
-                v-validate="validation">
+                v-validate="validation"
+                :class="{'error-border': errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? true : null}">
       </v-select>         
     </b-form-group>    
   </div>

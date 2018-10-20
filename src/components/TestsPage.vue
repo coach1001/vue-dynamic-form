@@ -26,7 +26,7 @@
                   v-if="$fieldUtils.checkForRequiredIds(screen.requiredIds, referenceIds)"
                   :key="sIndex" 
                   :title="screen.label" class="p-4">        
-            <form-generator 
+            <form-generator v-if="currentIndex === sIndex"            
                             :dataLocation="screen.dataLocation"
                             :schema="screen.schema" 
                             :value="screenData[screen.name]"
@@ -69,7 +69,7 @@ export default {
     ...mapState(['mainUiLayout', 'setReferenceId', 'screenData', 'referenceIds', 'patientTestsResults'])
   },  
   data() {
-    return {
+    return {      
       showNewTestModal: false,
       newTestDate: null,
       firstLoad: true,

@@ -123,3 +123,24 @@ html {
   font-size: 2rem;
   margin-right: 7px;
 }
+
+.error-border .input-group .form-control {
+  border: 1px solid #dc3545 !important;
+}
+  
+.error-border .input-group .form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+  
+.open .dropdown-toggle {
+  border: 1px solid #80bdff !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+ }
+  
+.error-border .dropdown-toggle {
+  border: 1px solid #dc3545 !important;
+}
+  
+.error-border.open .dropdown-toggle {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}

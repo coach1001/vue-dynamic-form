@@ -2,10 +2,10 @@
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">    
     <b-form-group :label="label"
                   :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
-                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">
+                  :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null">
       <b-form-textarea 
                       :data-vv-as="label"
-                      :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)"
+                      :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null"
                       :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                       :name="name"
                       :value="value || defaultValue"

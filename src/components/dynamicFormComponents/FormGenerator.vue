@@ -39,11 +39,13 @@ import ModalInput from './ModalInput'
 
 export default {
   name: 'FormGenerator',     
+  inject: ['$validator'],
   components: { NumberInput, SelectList, TextInput, ArrayInput, ObjectInput, DatePickerInput, BooleanYesNoInput, ModalInput, TextAreaInput },
   props: ['schema', 'value', 'name', 'dataLocation'],
   data() {
     return {
       formData: this.value || {},
+      formDataCopy: {},
       formValidators: []
     }
   },
@@ -54,7 +56,8 @@ export default {
   },
   methods: {
     updateForm(fieldName, value) {      
-      this.$set(this.formData, fieldName, value)           
+      this.$set(this.formData, fieldName, value)
+      this.$emit('input', this.formData)         
     },
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         

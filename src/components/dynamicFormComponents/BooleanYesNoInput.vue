@@ -2,7 +2,7 @@
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">    
     <b-form-group :label="label"
                   :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
-                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">
+                  :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null">
       <b-button-group>
         <b-button :disabled="$fieldUtils.isEnabled(refData, enabledWhen, enabledWhenValue)"
                   :variant="valueClass('YES')"
@@ -15,12 +15,12 @@
                   v-if="value && openModal !== undefined" @click="checkOpenModal()"                      
                   >Details</b-button>
       </b-button-group>              
-      <input
+      <input hidden
             :data-vv-as="label"
-            :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)"               
-            hidden :value="value"
+            :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null"               
+            :value="value"
             :name="`${$fieldUtils.parentName(parentName)}${name}`"
-            v-validate="'required'"/>      
+            v-validate="validation"/>      
     </b-form-group>
   </div>  
 </template>
@@ -30,7 +30,7 @@ export default {
   name: 'BooleanYesNoInput', 
   inject: ['$validator'],   
   props: [
-    'label', 'name', 'value', 'refData', 'openModal', 'defaultValue', 'parentName',
+    'label', 'name', 'value', 'refData', 'openModal', 'defaultValue', 'parentName', 'validation',
     'visibleWhen', 'visibleWhenValue', 
     'clearWhen', 'clearWhenValue',      
     'enabledWhen', 'enabledWhenValue'      

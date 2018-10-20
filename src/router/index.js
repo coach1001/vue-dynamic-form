@@ -4,7 +4,7 @@ import firebase from 'firebase'
 import TestsPage from '../components/TestsPage'
 import UserAccessPage from '../components/UserAccessPage'
 import SearchPage from '../components/SearchPage'
-
+import DebugView from '../components/DebugView'
 Vue.use(Router)
 
 const router = new Router ({
@@ -13,6 +13,10 @@ const router = new Router ({
     {
       path: '/',
       redirect: '/login'
+    },
+    {
+      path: '/debug',
+      component: DebugView
     },
     {
       path: '/login',

@@ -2,10 +2,10 @@
   <div v-if="$fieldUtils.isVisible(refData, visibleWhen, visibleWhenValue)">  
     <b-form-group :label="label"
                   :invalid-feedback="errors.first(`${$fieldUtils.parentName(parentName)}${name}`)"
-                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)">
+                  :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null">
       <datepicker
                   :data-vv-as="label"
-                  :state="$fieldUtils.checkErrors(`${$fieldUtils.parentName(parentName)}${name}`, errors, $veeFields)"      
+                  :state="errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? false : null"
                   format="yyyy-MM-dd"
                   :bootstrap-styling="true" 
                   :typeable="true"
@@ -14,7 +14,8 @@
                   :value="value || defaultValue"
                   @input="(val) => $emit('input', val ? val.toISOString().substr(0,10) : null)"
                   :placeholder="placeholder"
-                  v-validate="validation">
+                  v-validate="validation"
+                  :class="{'error-border': errors.has(`${$fieldUtils.parentName(parentName)}${name}`) ? true : null}">
       </datepicker>
     </b-form-group>
   </div>
