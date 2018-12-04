@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!$objectUtils.isEmpty(mainUiLayout)">
+  <b-card class="shadow-lg" v-if="!$objectUtils.isEmpty(mainUiLayout)">
     <b-row v-if="referenceIds.patientId !== 'new'">         
       <b-col class="col-md-4">
         <b-form-group label="Select Previous Test">     
@@ -53,7 +53,7 @@
       </datepicker>
     </b-form-group>
   </b-modal>
-  </div>
+  </b-card>
 </template>
 
 <script>

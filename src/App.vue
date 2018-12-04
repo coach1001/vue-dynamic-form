@@ -4,7 +4,7 @@
     <div class="mb-5">
       <main-bar></main-bar>
     </div>
-    <b-container>
+    <b-container class="mb-5">
       <router-view></router-view>
     </b-container>  
   </div>  

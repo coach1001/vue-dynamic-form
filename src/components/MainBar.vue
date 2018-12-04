@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="md" type="dark" variant="primary">
+  <b-navbar toggleable="md" type="dark" variant="primary" class="shadow">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand @click="pushRoute('/search')">
       <img src="../assets/optijotIcon.svg" width="50" height="50" alt="">

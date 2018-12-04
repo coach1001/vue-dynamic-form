@@ -62,15 +62,14 @@ export default {
     reset() {
       this.$store.commit('resetCurrentScreenData', this.name)                         
     },
-    async save() {        
-      this.formData = this.$fieldUtils.removeEmpty(this.formData)       
+    async save() {             
       this.$validator.validateAll()
-      console.log(this.$veeFields);
-      /*this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
+      this.formData = this.$fieldUtils.removeEmpty(this.formData)
+      this.$store.commit('setScreenData', { ref: this.name, val: this.formData })
       await this.$store.dispatch('updateCreateDataInLocation', {
         location: this.dataLocation,
         screenName: this.name        
-      })*/
+      })
     }
   }
 }

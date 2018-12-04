@@ -53,7 +53,8 @@ export default {
               fieldType: 'BooleanYesNoInput',
               name: 'modalOpener',
               label: 'Modal Opener',
-              openModal: 'testModal'
+              openModal: 'testModal',
+              fullWidth: true
             },
             {
               fieldType: 'ModalInput',
@@ -64,11 +65,46 @@ export default {
                   fieldType: 'TextInput',
                   label: 'Modal Text Input',
                   name: 'modalTextInput',
-                  validation: 'required'                
+                  validation: 'required',
+                  fullWidth: true             
+                }
+              ]
+            },
+            {
+              fieldType: 'BooleanYesNoInput',
+              name: 'kids',
+              label: 'Kids',
+              openModal: 'kidsModal',
+              fullWidth: true
+            },
+            {
+              fieldType: 'ModalInput',
+              name: 'kidsModal',
+              label: 'Kids Modal',
+              size: 'lg',
+              schema: [
+                {
+                  fieldType: 'ArrayInput',
+                  label: 'Kids',
+                  name: 'kidsList',
+                  schema: [
+                    {
+                      fieldType: 'TextInput',
+                      name: 'firstName',
+                      label: 'First Name',
+                      validation: 'required'
+                    },
+                    {
+                      fieldType: 'TextInput',
+                      name: 'lastName',
+                      label: 'Last Name',
+                      validation: 'required'
+                    }
+                  ]           
                 }
               ]
             }
-          ]
+          ],
         },
         {
           label: 'Screen 2',

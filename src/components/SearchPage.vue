@@ -1,5 +1,5 @@
 <template>
-  <div>      
+  <b-card class="shadow-lg">      
     
     <b-btn variant="primary mb-3" @click.prevent="create" class="icon-button-before">
       <span class="h-icon icon-icon-33-clipboard-add"></span>
@@ -27,7 +27,7 @@
             :fields="fields">
     </b-table>  
     <b-pagination :total-rows="patientSearchResults.length" :per-page="perPage" v-model="currentPage" />
-  </div>
+  </b-card>
 </template>
 
 <script>

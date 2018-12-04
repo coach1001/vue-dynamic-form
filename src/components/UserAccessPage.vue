@@ -1,41 +1,7 @@
 <template>
-  <!-- <div>
-    <div class="row center-xs">
-      <div class="section-wrapper-with-border login-width">
-        <div class="section-heading">Login</div>    
-        <div class="row start-xs">
-          <label>Email</label>
-        </div>
-        <div class="row">  
-          <input 
-            v-validate="'required|email'" 
-            @input="loginError = null"
-            :class="{'error-border': errors.first('email') || loginError ? true : false}" type="text" 
-            v-model.trim="loginForm.userEmaiAddress"
-            name="email">   
-          <span class="span-errors">{{ errors.first('email') }}</span>     
-        </div>      
-        <div class="row start-xs">
-          <label>Password</label>
-        </div>
-        <div class="row">  
-          <input 
-            v-validate="'required|min:6'" 
-            type="password" 
-            name="password" 
-            @input="loginError = null"
-            v-model.trim="loginForm.userPassword"
-            :class="{'error-border': errors.first('password') || loginError ? true : false}">
-          <span class="span-errors">{{ errors.first('password') }}</span>
-          <span class="span-errors">{{ loginError }}</span>
-        </div>
-        <button class="primary" @click="attemptLogin()">Log In</button>
-      </div>
-    </div>
-  </div> -->
   <b-row align-h="center">
     <b-col lg="5" md="8" sm="12">
-      <b-card border-variant="primary" header="Login" header-bg-variant="primary" header-text-variant="white">
+      <b-card border-variant="primary" header="Login" class="shadow-lg" header-bg-variant="primary" header-text-variant="white">
         <b-form @submit.prevent="onSubmit">
           <b-form-group :invalid-feedback="errors.first('email')"
                         :state="$fieldUtils.checkErrors('email', errors, $veeFields)"
